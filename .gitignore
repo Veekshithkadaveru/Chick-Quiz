@@ -17,3 +17,13 @@ local.properties
 DEVELOPMENT_PLAN.md
 chick17/
 chick17_elements/
+
+.kotlin/
+/.idea/.name
+/.idea/AndroidProjectSystem.xml
+/.idea/appInsightsSettings.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/gradle.xml
+/.idea/inspectionProfiles/
+/.idea/migrations.xml
+/.idea/runConfigurations.xml
