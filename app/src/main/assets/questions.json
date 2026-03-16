@@ -1,0 +1,354 @@
+{
+  "questions": [
+    {
+      "id": 1, "category": "BREEDS", "difficulty": "EASY",
+      "question": "Which breed is the most common backyard chicken?",
+      "options": ["Leghorn", "Silkie", "Rhode Island Red", "Plymouth Rock"],
+      "correctIndex": 2, "timeLimit": 15,
+      "funFact": "Rhode Island Reds are hardy and friendly and can lay up to 300 brown eggs per year."
+    },
+    {
+      "id": 2, "category": "BREEDS", "difficulty": "EASY",
+      "question": "What breed has fluffy feathers that look like fur?",
+      "options": ["Leghorn", "Silkie", "Orpington", "Wyandotte"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "Silkies have a unique gene that prevents their feathers from interlocking giving them a silky soft feel."
+    },
+    {
+      "id": 3, "category": "BREEDS", "difficulty": "EASY",
+      "question": "Which breed is famous for being very large and calm?",
+      "options": ["Bantam", "Leghorn", "Brahma", "Hamburg"],
+      "correctIndex": 2, "timeLimit": 15,
+      "funFact": "Brahma chickens can weigh up to 5.5kg and were once called the King of Chickens."
+    },
+    {
+      "id": 4, "category": "BREEDS", "difficulty": "EASY",
+      "question": "What is a Bantam chicken known for?",
+      "options": ["Large eggs", "Being miniature", "Aggressive nature", "Blue feathers"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "Bantams are typically one-fifth to one-quarter the size of standard chickens."
+    },
+    {
+      "id": 5, "category": "BREEDS", "difficulty": "MEDIUM",
+      "question": "Which breed lays blue or green eggs?",
+      "options": ["Leghorn", "Sussex", "Araucana", "Australorp"],
+      "correctIndex": 2, "timeLimit": 12,
+      "funFact": "Araucana chickens originated in Chile and carry a gene that deposits pigment into the eggshell."
+    },
+    {
+      "id": 6, "category": "BREEDS", "difficulty": "MEDIUM",
+      "question": "Which breed holds the world record for most eggs in a year?",
+      "options": ["Rhode Island Red", "Leghorn", "ISA Brown", "Plymouth Rock"],
+      "correctIndex": 2, "timeLimit": 12,
+      "funFact": "An ISA Brown hen once laid 365 eggs in 364 days — almost one every single day."
+    },
+    {
+      "id": 7, "category": "BREEDS", "difficulty": "MEDIUM",
+      "question": "What breed is known for black feathers and Australian origin?",
+      "options": ["Orpington", "Australorp", "Jersey Giant", "Minorca"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "The Australorp set the world egg-laying record in 1922 with 364 eggs in 365 days."
+    },
+    {
+      "id": 8, "category": "BREEDS", "difficulty": "HARD",
+      "question": "Which ancient breed is considered one of the oldest domesticated chickens?",
+      "options": ["Leghorn", "Silkie", "Jungle Fowl", "Cochin"],
+      "correctIndex": 2, "timeLimit": 10,
+      "funFact": "The Red Jungle Fowl is the wild ancestor of all domestic chickens first domesticated around 7000 BC."
+    },
+    {
+      "id": 9, "category": "BREEDS", "difficulty": "HARD",
+      "question": "What is a Frizzle chicken known for?",
+      "options": ["Unusual size", "Curled outward feathers", "Laying spotted eggs", "Crowing at night"],
+      "correctIndex": 1, "timeLimit": 10,
+      "funFact": "Frizzle feathers curl outward and upward due to a single dominant gene mutation."
+    },
+    {
+      "id": 10, "category": "BREEDS", "difficulty": "HARD",
+      "question": "Which dual-purpose breed was developed in the USA in the 1800s and named after a state?",
+      "options": ["Leghorn", "Wyandotte", "Delaware", "Rhode Island Red"],
+      "correctIndex": 3, "timeLimit": 10,
+      "funFact": "Rhode Island Red was developed in Massachusetts and Rhode Island and became the official state bird of Rhode Island."
+    },
+    {
+      "id": 11, "category": "EGGS", "difficulty": "EASY",
+      "question": "How many days does a chicken egg take to hatch?",
+      "options": ["14 days", "21 days", "28 days", "30 days"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "The embryo turns itself over 50 times per day inside the egg during incubation."
+    },
+    {
+      "id": 12, "category": "EGGS", "difficulty": "EASY",
+      "question": "What colours do most common chickens lay?",
+      "options": ["Blue", "Brown or white", "Green", "Pink"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "Shell colour is determined entirely by breed genetics not diet or environment."
+    },
+    {
+      "id": 13, "category": "EGGS", "difficulty": "EASY",
+      "question": "What do you call keeping a fertilised egg warm to hatch?",
+      "options": ["Resting", "Incubating", "Sleeping", "Warming"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "The ideal incubation temperature is 37.5°C — even 1°C off can affect hatch rates."
+    },
+    {
+      "id": 14, "category": "EGGS", "difficulty": "EASY",
+      "question": "Which part of the egg protects the developing chick?",
+      "options": ["The yolk", "The shell", "The white", "The air cell"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "An eggshell has up to 17000 tiny pores that allow oxygen in and carbon dioxide out."
+    },
+    {
+      "id": 15, "category": "EGGS", "difficulty": "MEDIUM",
+      "question": "What determines the colour of a chicken's eggshell?",
+      "options": ["Her diet", "Her age", "Her breed", "The rooster"],
+      "correctIndex": 2, "timeLimit": 12,
+      "funFact": "You can predict a hen's egg colour by looking at her earlobes — red earlobes usually mean brown eggs."
+    },
+    {
+      "id": 16, "category": "EGGS", "difficulty": "MEDIUM",
+      "question": "At what age do most hens begin laying eggs?",
+      "options": ["4-6 weeks", "8-10 weeks", "18-24 weeks", "1 year"],
+      "correctIndex": 2, "timeLimit": 12,
+      "funFact": "This first lay is called point of lay and varies by breed — some take up to 32 weeks."
+    },
+    {
+      "id": 17, "category": "EGGS", "difficulty": "MEDIUM",
+      "question": "What is the small white spot on a yolk called?",
+      "options": ["Nucleus", "Blastodisc", "Chalaza", "Germinal vesicle"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "The blastodisc is where fertilisation occurs — if fertilised it becomes the blastoderm."
+    },
+    {
+      "id": 18, "category": "EGGS", "difficulty": "MEDIUM",
+      "question": "How many eggs can a productive hen lay per year?",
+      "options": ["50-100", "100-150", "250-300", "400-450"],
+      "correctIndex": 2, "timeLimit": 12,
+      "funFact": "Production drops by around 10-15% each year after the first laying season."
+    },
+    {
+      "id": 19, "category": "EGGS", "difficulty": "HARD",
+      "question": "What string-like structure keeps the yolk centred in the egg?",
+      "options": ["Blastodisc", "Chalaza", "Albumen", "Air cell"],
+      "correctIndex": 1, "timeLimit": 10,
+      "funFact": "The chalaza is a twisted strand of egg white that anchors the yolk — thicker means a fresher egg."
+    },
+    {
+      "id": 20, "category": "EGGS", "difficulty": "HARD",
+      "question": "Which nutrient in egg yolk is essential for brain development?",
+      "options": ["Vitamin C", "Vitamin K", "Choline", "Iron"],
+      "correctIndex": 2, "timeLimit": 10,
+      "funFact": "One egg yolk contains about 147mg of choline — roughly 27% of the recommended daily intake."
+    },
+    {
+      "id": 21, "category": "FEED_CARE", "difficulty": "EASY",
+      "question": "What is the main ingredient in standard chicken feed?",
+      "options": ["Rice", "Corn or grain", "Vegetables", "Fish"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "Corn provides energy while soybean meal provides the protein chickens need to lay eggs."
+    },
+    {
+      "id": 22, "category": "FEED_CARE", "difficulty": "EASY",
+      "question": "How often should chickens have access to fresh water?",
+      "options": ["Once a day", "Twice a day", "Always", "Every 3 days"],
+      "correctIndex": 2, "timeLimit": 15,
+      "funFact": "A laying hen drinks about 500ml of water per day — more in hot weather."
+    },
+    {
+      "id": 23, "category": "FEED_CARE", "difficulty": "EASY",
+      "question": "What common food is DANGEROUS for chickens?",
+      "options": ["Corn", "Avocado", "Sunflower seeds", "Lettuce"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "Avocado contains persin a fungicidal toxin that causes heart failure in birds."
+    },
+    {
+      "id": 24, "category": "FEED_CARE", "difficulty": "EASY",
+      "question": "What nutrient do chickens need most for strong eggshells?",
+      "options": ["Iron", "Calcium", "Protein", "Vitamin D"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "Crushed oyster shells are the most popular calcium supplement for laying hens."
+    },
+    {
+      "id": 25, "category": "FEED_CARE", "difficulty": "MEDIUM",
+      "question": "What is grit used for in chicken digestion?",
+      "options": ["Flavouring food", "Grinding food in the gizzard", "Adding calcium", "Attracting hens to eat"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "Chickens have no teeth — they swallow grit which helps their muscular gizzard grind up food."
+    },
+    {
+      "id": 26, "category": "FEED_CARE", "difficulty": "MEDIUM",
+      "question": "How much feed does an average laying hen eat per day?",
+      "options": ["50g", "120g", "300g", "500g"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "Free-range hens eat less commercial feed because they supplement with insects and grass."
+    },
+    {
+      "id": 27, "category": "FEED_CARE", "difficulty": "MEDIUM",
+      "question": "Which kitchen scrap should never be fed to chickens?",
+      "options": ["Apple peels", "Raw potato skins", "Cooked rice", "Watermelon"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "Raw potato skins contain solanine a toxic glycoalkaloid that can harm chickens."
+    },
+    {
+      "id": 28, "category": "FEED_CARE", "difficulty": "MEDIUM",
+      "question": "What feed type is best for chicks in their first weeks?",
+      "options": ["Layer pellets", "Starter crumble", "Scratch grains", "Corn only"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "Starter crumble has 20-24% protein — layer pellets have only 16% and too much calcium for chicks."
+    },
+    {
+      "id": 29, "category": "FEED_CARE", "difficulty": "HARD",
+      "question": "What mineral deficiency causes soft or thin eggshells?",
+      "options": ["Magnesium", "Zinc", "Calcium", "Phosphorus"],
+      "correctIndex": 2, "timeLimit": 10,
+      "funFact": "Hens require 4g of calcium per day for eggshell production — deficiency causes shell-less eggs."
+    },
+    {
+      "id": 30, "category": "FEED_CARE", "difficulty": "HARD",
+      "question": "Why do some keepers add apple cider vinegar to chicken water?",
+      "options": ["Improves egg colour", "Boosts gut health and immunity", "Increases egg size", "Repels predators"],
+      "correctIndex": 1, "timeLimit": 10,
+      "funFact": "Apple cider vinegar lowers water pH making it inhospitable to harmful bacteria and promoting good gut flora."
+    },
+    {
+      "id": 31, "category": "HEALTH", "difficulty": "EASY",
+      "question": "What is the most visible sign a chicken is unwell?",
+      "options": ["Loud crowing", "Lethargy and ruffled feathers", "Eating more", "Running fast"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "Healthy chickens are alert and active — a sick hen will separate herself from the flock."
+    },
+    {
+      "id": 32, "category": "HEALTH", "difficulty": "EASY",
+      "question": "What are mites and lice on chickens classified as?",
+      "options": ["Diseases", "External parasites", "Bacteria", "Fungi"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "Red mites feed on chickens at night and hide in coop cracks during the day."
+    },
+    {
+      "id": 33, "category": "HEALTH", "difficulty": "EASY",
+      "question": "What should you do if a chicken sneezes frequently?",
+      "options": ["Ignore it", "Isolate and observe", "Give it more water", "Feed it extra corn"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "Frequent sneezing can indicate respiratory infection — early isolation prevents flock spread."
+    },
+    {
+      "id": 34, "category": "HEALTH", "difficulty": "MEDIUM",
+      "question": "What is Marek's Disease?",
+      "options": ["A fungal infection", "A bacterial disease", "A highly contagious viral disease", "A nutritional deficiency"],
+      "correctIndex": 2, "timeLimit": 12,
+      "funFact": "Marek's Disease is caused by a herpesvirus and can be prevented with vaccination at hatch."
+    },
+    {
+      "id": 35, "category": "HEALTH", "difficulty": "MEDIUM",
+      "question": "What condition causes a hen's abdomen to swell with fluid?",
+      "options": ["Egg binding", "Ascites", "Coccidiosis", "Bumblefoot"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "Ascites is caused by heart or liver failure leading to fluid accumulation in the abdomen."
+    },
+    {
+      "id": 36, "category": "HEALTH", "difficulty": "MEDIUM",
+      "question": "What is bumblefoot in chickens?",
+      "options": ["A leg mite", "A bacterial foot infection", "A vitamin deficiency", "A breathing problem"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "Bumblefoot is caused by Staphylococcus bacteria entering through cuts — rough perches are a common cause."
+    },
+    {
+      "id": 37, "category": "HEALTH", "difficulty": "MEDIUM",
+      "question": "What does egg binding mean?",
+      "options": ["A hen lays too many eggs", "A hen cannot pass an egg", "An egg has no shell", "Two eggs fuse"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "A hen with egg binding can die within 48 hours — warm baths and calcium supplements can help."
+    },
+    {
+      "id": 38, "category": "HEALTH", "difficulty": "HARD",
+      "question": "What parasite causes coccidiosis in young chicks?",
+      "options": ["Roundworm", "Eimeria protozoa", "Red mite", "Tapeworm"],
+      "correctIndex": 1, "timeLimit": 10,
+      "funFact": "Coccidiosis kills more young chicks than almost any other disease — wet litter accelerates its spread."
+    },
+    {
+      "id": 39, "category": "HEALTH", "difficulty": "HARD",
+      "question": "Which disease causes tumours on nerves and organs of chickens?",
+      "options": ["Newcastle Disease", "Fowl Pox", "Marek's Disease", "Avian Influenza"],
+      "correctIndex": 2, "timeLimit": 10,
+      "funFact": "Marek's Disease can also cause paralysis of legs and wings and eye tumours leading to blindness."
+    },
+    {
+      "id": 40, "category": "HEALTH", "difficulty": "HARD",
+      "question": "What is the correct term for inflammation of a hen's oviduct?",
+      "options": ["Peritonitis", "Salpingitis", "Ascites", "Vent gleet"],
+      "correctIndex": 1, "timeLimit": 10,
+      "funFact": "Salpingitis causes the oviduct to fill with a caseous mass called a lash egg — a serious condition."
+    },
+    {
+      "id": 41, "category": "FUN_FACTS", "difficulty": "EASY",
+      "question": "How do chickens communicate with each other?",
+      "options": ["Only by sight", "Over 30 distinct vocalisations", "Only through touch", "By dancing"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "Hens use a specific cluck to call chicks to food and a different alarm call for aerial vs ground predators."
+    },
+    {
+      "id": 42, "category": "FUN_FACTS", "difficulty": "EASY",
+      "question": "What is a male chicken called?",
+      "options": ["Drake", "Rooster or Cockerel", "Gander", "Buck"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "A male under 1 year is a cockerel — over 1 year he becomes a rooster."
+    },
+    {
+      "id": 43, "category": "FUN_FACTS", "difficulty": "EASY",
+      "question": "Approximately how many chickens are there in the world?",
+      "options": ["1 billion", "10 billion", "34 billion", "100 billion"],
+      "correctIndex": 2, "timeLimit": 15,
+      "funFact": "There are more chickens on Earth than any other bird — roughly 4.5 chickens per human."
+    },
+    {
+      "id": 44, "category": "FUN_FACTS", "difficulty": "EASY",
+      "question": "What is a group of chickens called?",
+      "options": ["A herd", "A flock", "A pack", "A colony"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "A group of chicks specifically is called a brood and a group with a rooster is called a peep."
+    },
+    {
+      "id": 45, "category": "FUN_FACTS", "difficulty": "MEDIUM",
+      "question": "Can chickens recognise human faces?",
+      "options": ["No", "Yes up to 100 faces", "Only their owner", "Only other chickens"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "Chickens can distinguish between familiar and unfamiliar humans and remember faces long-term."
+    },
+    {
+      "id": 46, "category": "FUN_FACTS", "difficulty": "MEDIUM",
+      "question": "What is the red fleshy growth on top of a chicken's head?",
+      "options": ["Wattle", "Comb", "Crown", "Plume"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "The comb helps regulate body temperature — blood circulates through it to release heat."
+    },
+    {
+      "id": 47, "category": "FUN_FACTS", "difficulty": "MEDIUM",
+      "question": "How fast can a chicken run at full speed?",
+      "options": ["3 km/h", "9 km/h", "15 km/h", "25 km/h"],
+      "correctIndex": 2, "timeLimit": 12,
+      "funFact": "Chickens can also fly short distances — up to 3 metres high and 50 metres distance."
+    },
+    {
+      "id": 48, "category": "FUN_FACTS", "difficulty": "MEDIUM",
+      "question": "What is the average lifespan of a backyard chicken?",
+      "options": ["1-2 years", "3-5 years", "5-10 years", "15-20 years"],
+      "correctIndex": 2, "timeLimit": 12,
+      "funFact": "The oldest recorded chicken Muffy lived to 23 years old in the USA."
+    },
+    {
+      "id": 49, "category": "FUN_FACTS", "difficulty": "HARD",
+      "question": "What is the scientific name for the domestic chicken?",
+      "options": ["Gallus domesticus", "Gallus gallus domesticus", "Phasianus colchicus", "Meleagris gallopavo"],
+      "correctIndex": 1, "timeLimit": 10,
+      "funFact": "Gallus gallus domesticus descended from the Red Jungle Fowl Gallus gallus native to Southeast Asia."
+    },
+    {
+      "id": 50, "category": "FUN_FACTS", "difficulty": "HARD",
+      "question": "Which country has the highest chicken-to-human ratio?",
+      "options": ["USA", "Brazil", "Guyana", "China"],
+      "correctIndex": 2, "timeLimit": 10,
+      "funFact": "Guyana has approximately 4.4 chickens per person driven by its large poultry farming industry."
+    }
+  ]
+}
