@@ -9,17 +9,15 @@ import androidx.room.RoomDatabase
     entities = [
         QuestionEntity::class,
         PlayerProgress::class,
-        DailyRecord::class,
         ScoreRecord::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun questionDao(): QuestionDao
     abstract fun playerProgressDao(): PlayerProgressDao
-    abstract fun dailyRecordDao(): DailyRecordDao
     abstract fun scoreRecordDao(): ScoreRecordDao
 
     companion object {

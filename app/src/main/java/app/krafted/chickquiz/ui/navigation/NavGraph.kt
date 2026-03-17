@@ -19,14 +19,14 @@ import app.krafted.chickquiz.ui.SplashScreen
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
     object Home : Screen("home")
-    object Quiz : Screen("quiz/{category}/{isDaily}") {
-        fun createRoute(category: String, isDaily: Boolean) = "quiz/$category/$isDaily"
+    object Quiz : Screen("quiz/{category}") {
+        fun createRoute(category: String) = "quiz/$category"
     }
-    object AnswerReveal : Screen("answer_reveal/{category}/{isDaily}") {
-        fun createRoute(category: String, isDaily: Boolean) = "answer_reveal/$category/$isDaily"
+    object AnswerReveal : Screen("answer_reveal/{category}") {
+        fun createRoute(category: String) = "answer_reveal/$category"
     }
-    object Result : Screen("result/{category}/{isDaily}") {
-        fun createRoute(category: String, isDaily: Boolean) = "result/$category/$isDaily"
+    object Result : Screen("result/{category}") {
+        fun createRoute(category: String) = "result/$category"
     }
     object Collection : Screen("collection")
     object Leaderboard : Screen("leaderboard/{category}") {
@@ -75,10 +75,7 @@ fun ChickQuizNavGraph(navController: NavHostController) {
         composable(Screen.Home.route) {
             HomeScreen(
                 onCategoryClick = { category ->
-                    navController.navigate(Screen.Quiz.createRoute(category, false))
-                },
-                onDailyClick = {
-                    navController.navigate(Screen.Quiz.createRoute("DAILY", true))
+                    navController.navigate(Screen.Quiz.createRoute(category))
                 },
                 onCollectionClick = {
                     navController.navigate(Screen.Collection.route)
@@ -92,20 +89,17 @@ fun ChickQuizNavGraph(navController: NavHostController) {
         composable(
             route = Screen.Quiz.route,
             arguments = listOf(
-                navArgument("category") { type = NavType.StringType },
-                navArgument("isDaily") { type = NavType.BoolType }
+                navArgument("category") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val category = backStackEntry.arguments?.getString("category") ?: "BREEDS"
-            val isDaily = backStackEntry.arguments?.getBoolean("isDaily") ?: false
             QuizScreen(
                 category = category,
-                isDaily = isDaily,
                 onAnswerRevealed = {
-                    navController.navigate(Screen.AnswerReveal.createRoute(category, isDaily))
+                    navController.navigate(Screen.AnswerReveal.createRoute(category))
                 },
                 onSessionComplete = {
-                    navController.navigate(Screen.Result.createRoute(category, isDaily)) {
+                    navController.navigate(Screen.Result.createRoute(category)) {
                         popUpTo(Screen.Quiz.route) { inclusive = true }
                     }
                 },
@@ -116,33 +110,25 @@ fun ChickQuizNavGraph(navController: NavHostController) {
         composable(
             route = Screen.AnswerReveal.route,
             arguments = listOf(
-                navArgument("category") { type = NavType.StringType },
-                navArgument("isDaily") { type = NavType.BoolType }
+                navArgument("category") { type = NavType.StringType }
             )
-        ) { backStackEntry ->
-            val category = backStackEntry.arguments?.getString("category") ?: "BREEDS"
-            val isDaily = backStackEntry.arguments?.getBoolean("isDaily") ?: false
+        ) {
             AnswerRevealScreen(
-                onNext = {
-                    navController.popBackStack()
-                }
+                onNext = { navController.popBackStack() }
             )
         }
 
         composable(
             route = Screen.Result.route,
             arguments = listOf(
-                navArgument("category") { type = NavType.StringType },
-                navArgument("isDaily") { type = NavType.BoolType }
+                navArgument("category") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val category = backStackEntry.arguments?.getString("category") ?: "BREEDS"
-            val isDaily = backStackEntry.arguments?.getBoolean("isDaily") ?: false
             ResultScreen(
                 category = category,
-                isDaily = isDaily,
                 onPlayAgain = {
-                    navController.navigate(Screen.Quiz.createRoute(category, isDaily)) {
+                    navController.navigate(Screen.Quiz.createRoute(category)) {
                         popUpTo(Screen.Home.route)
                     }
                 },

@@ -2,7 +2,6 @@ package app.krafted.chickquiz.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.krafted.chickquiz.data.db.DailyRecordDao
 import app.krafted.chickquiz.data.db.PlayerProgress
 import app.krafted.chickquiz.data.db.PlayerProgressDao
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,12 +21,11 @@ data class ChickInfo(
 data class CollectionUiState(
     val chicks: List<ChickInfo> = emptyList(),
     val unlockedCount: Int = 0,
-    val totalCount: Int = 7
+    val totalCount: Int = 6
 )
 
 class CollectionViewModel(
-    private val progressDao: PlayerProgressDao,
-    private val dailyDao: DailyRecordDao
+    private val progressDao: PlayerProgressDao
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CollectionUiState())
@@ -40,8 +38,7 @@ class CollectionViewModel(
     fun loadCollection() {
         viewModelScope.launch {
             progressDao.getAllProgress().collect { progressList ->
-                val dailyRecord = dailyDao.getDailyRecord()
-                val chicks = buildChickList(progressList, dailyRecord?.streakCount ?: 0)
+                val chicks = buildChickList(progressList)
                 _uiState.update {
                     it.copy(
                         chicks = chicks,
@@ -52,7 +49,7 @@ class CollectionViewModel(
         }
     }
 
-    private fun buildChickList(progressList: List<PlayerProgress>, streakCount: Int): List<ChickInfo> {
+    private fun buildChickList(progressList: List<PlayerProgress>): List<ChickInfo> {
         val stars = progressList.associate { it.category to it.stars }
 
         return listOf(
@@ -96,14 +93,7 @@ class CollectionViewModel(
                 name = "Master Chick",
                 drawableName = "chick_master",
                 unlockDescription = "Earn 3 stars in all 5 categories",
-                isUnlocked = Category.values().all { cat -> (stars[cat.name] ?: 0) >= 3 }
-            ),
-            ChickInfo(
-                id = 7,
-                name = "Daily Chick",
-                drawableName = "chick_daily",
-                unlockDescription = "Complete a 7-day daily streak",
-                isUnlocked = streakCount >= 7
+                isUnlocked = Category.entries.all { cat -> (stars[cat.name] ?: 0) >= 3 }
             )
         )
     }

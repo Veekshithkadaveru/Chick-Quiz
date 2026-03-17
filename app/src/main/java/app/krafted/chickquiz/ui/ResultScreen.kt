@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 @Composable
 fun ResultScreen(
     category: String,
-    isDaily: Boolean,
     onPlayAgain: () -> Unit,
     onHome: () -> Unit
 ) {
