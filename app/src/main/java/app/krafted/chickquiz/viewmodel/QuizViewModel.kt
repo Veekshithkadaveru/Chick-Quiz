@@ -36,7 +36,6 @@ data class QuizUiState(
     val mamaHenState: MamaHenState = MamaHenState.IDLE,
     val isPersonalBest: Boolean = false,
     val starsEarned: Int = 0,
-    val newUnlocks: List<String> = emptyList(),
     val timerKey: Int = 0
 )
 
@@ -144,44 +143,14 @@ class QuizViewModel(
                 )
             )
 
-            val newUnlocks = checkNewUnlocks(category, persistedStars)
-
             _uiState.update {
                 it.copy(
                     sessionComplete = true,
                     isPersonalBest = isPersonalBest,
-                    starsEarned = stars,
-                    newUnlocks = newUnlocks
+                    starsEarned = stars
                 )
             }
         }
-    }
-
-    private suspend fun checkNewUnlocks(category: String, newStars: Int): List<String> {
-        val unlocks = mutableListOf<String>()
-        val previousProgress = mutableMapOf<String, Int>()
-
-        Category.entries.forEach { cat ->
-            val p = progressDao.getProgress(cat.name)
-            previousProgress[cat.name] = p?.stars ?: 0
-        }
-
-        // Stars before this session (for unlock threshold comparison)
-        val prevStars = previousProgress[category] ?: 0
-        val allProgress = previousProgress.toMutableMap()
-        allProgress[category] = maxOf(prevStars, newStars)
-
-        val breedsStars = allProgress["BREEDS"] ?: 0
-        val eggsStars = allProgress["EGGS"] ?: 0
-        val maxStars = allProgress.values.maxOrNull() ?: 0
-        val prevMaxStars = previousProgress.values.maxOrNull() ?: 0
-
-        // Only report as new unlock if the threshold was just crossed this session
-        if (breedsStars >= 1 && prevStars < 1 && category == "BREEDS") unlocks += "FEED_CARE"
-        if (eggsStars >= 1 && prevStars < 1 && category == "EGGS") unlocks += "HEALTH"
-        if (maxStars >= 2 && prevMaxStars < 2) unlocks += "FUN_FACTS"
-
-        return unlocks
     }
 
     fun resetSession() {

@@ -10,13 +10,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class HomeUiState(
-    val unlockState: Map<String, Boolean> = mapOf(
-        "BREEDS" to true,
-        "EGGS" to true,
-        "FEED_CARE" to true,
-        "HEALTH" to true,
-        "FUN_FACTS" to true
-    ),
     val starRatings: Map<String, Int> = emptyMap()
 )
 
@@ -35,24 +28,10 @@ class HomeViewModel(
         viewModelScope.launch {
             progressDao.getAllProgress().collect { progressList ->
                 val stars = progressList.associate { it.category to it.stars }
-                val unlocks = computeUnlocks()
                 _uiState.update {
-                    it.copy(
-                        starRatings = stars,
-                        unlockState = unlocks
-                    )
+                    it.copy(starRatings = stars)
                 }
             }
         }
-    }
-
-    private fun computeUnlocks(): Map<String, Boolean> {
-        return mapOf(
-            "BREEDS" to true,
-            "EGGS" to true,
-            "FEED_CARE" to true,
-            "HEALTH" to true,
-            "FUN_FACTS" to true
-        )
     }
 }

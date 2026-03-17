@@ -88,7 +88,7 @@ private val optionLabels = listOf("A", "B", "C", "D")
 @Composable
 fun QuizScreen(
     category: String,
-    onSessionComplete: (Int, Int, Boolean, Int, String) -> Unit,
+    onSessionComplete: (Int, Int, Boolean, Int) -> Unit,
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
@@ -133,8 +133,7 @@ fun QuizScreen(
                 uiState.score,
                 uiState.correctCount,
                 uiState.isPersonalBest,
-                uiState.starsEarned,
-                uiState.newUnlocks.joinToString(",")
+                uiState.starsEarned
             )
         }
     }

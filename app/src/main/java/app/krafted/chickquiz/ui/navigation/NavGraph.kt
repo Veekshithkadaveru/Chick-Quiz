@@ -1,6 +1,5 @@
 package app.krafted.chickquiz.ui.navigation
 
-import android.net.Uri
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
@@ -22,9 +21,9 @@ sealed class Screen(val route: String) {
     object Quiz : Screen("quiz/{category}") {
         fun createRoute(category: String) = "quiz/$category"
     }
-    object Result : Screen("result/{category}?score={score}&correctCount={correctCount}&isPersonalBest={isPersonalBest}&starsEarned={starsEarned}&newUnlocks={newUnlocks}") {
-        fun createRoute(category: String, score: Int, correctCount: Int, isPersonalBest: Boolean, starsEarned: Int, newUnlocks: String) =
-            "result/$category?score=$score&correctCount=$correctCount&isPersonalBest=$isPersonalBest&starsEarned=$starsEarned&newUnlocks=${Uri.encode(newUnlocks)}"
+    object Result : Screen("result/{category}?score={score}&correctCount={correctCount}&isPersonalBest={isPersonalBest}&starsEarned={starsEarned}") {
+        fun createRoute(category: String, score: Int, correctCount: Int, isPersonalBest: Boolean, starsEarned: Int) =
+            "result/$category?score=$score&correctCount=$correctCount&isPersonalBest=$isPersonalBest&starsEarned=$starsEarned"
     }
     object Collection : Screen("collection")
     object Leaderboard : Screen("leaderboard/{category}") {
@@ -93,9 +92,9 @@ fun ChickQuizNavGraph(navController: NavHostController) {
             val category = backStackEntry.arguments?.getString("category") ?: "BREEDS"
             QuizScreen(
                 category = category,
-                onSessionComplete = { score, correctCount, isPersonalBest, starsEarned, newUnlocks ->
+                onSessionComplete = { score, correctCount, isPersonalBest, starsEarned ->
                     navController.navigate(
-                        Screen.Result.createRoute(category, score, correctCount, isPersonalBest, starsEarned, newUnlocks)
+                        Screen.Result.createRoute(category, score, correctCount, isPersonalBest, starsEarned)
                     ) {
                         popUpTo(Screen.Quiz.route) { inclusive = true }
                     }
@@ -111,8 +110,7 @@ fun ChickQuizNavGraph(navController: NavHostController) {
                 navArgument("score") { type = NavType.IntType; defaultValue = 0 },
                 navArgument("correctCount") { type = NavType.IntType; defaultValue = 0 },
                 navArgument("isPersonalBest") { type = NavType.BoolType; defaultValue = false },
-                navArgument("starsEarned") { type = NavType.IntType; defaultValue = 0 },
-                navArgument("newUnlocks") { type = NavType.StringType; defaultValue = "" }
+                navArgument("starsEarned") { type = NavType.IntType; defaultValue = 0 }
             )
         ) { backStackEntry ->
             val category = backStackEntry.arguments?.getString("category") ?: "BREEDS"
@@ -120,15 +118,12 @@ fun ChickQuizNavGraph(navController: NavHostController) {
             val correctCount = backStackEntry.arguments?.getInt("correctCount") ?: 0
             val isPersonalBest = backStackEntry.arguments?.getBoolean("isPersonalBest", false) ?: false
             val starsEarned = backStackEntry.arguments?.getInt("starsEarned") ?: 0
-            val newUnlocks = backStackEntry.arguments?.getString("newUnlocks")
-                ?.split(",")?.filter { it.isNotBlank() } ?: emptyList()
             ResultScreen(
                 category = category,
                 score = score,
                 correctCount = correctCount,
                 isPersonalBest = isPersonalBest,
                 starsEarned = starsEarned,
-                newUnlocks = newUnlocks,
                 onPlayAgain = {
                     navController.navigate(Screen.Quiz.createRoute(category)) {
                         popUpTo(Screen.Home.route)

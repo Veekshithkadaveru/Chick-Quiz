@@ -1,5 +1,6 @@
 package app.krafted.chickquiz.viewmodel
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.krafted.chickquiz.data.db.PlayerProgress
@@ -21,80 +22,72 @@ data class ChickInfo(
 data class CollectionUiState(
     val chicks: List<ChickInfo> = emptyList(),
     val unlockedCount: Int = 0,
-    val totalCount: Int = 6
+    val totalCount: Int = 6,
+    val newlyUnlockedIds: Set<Int> = emptySet()
 )
 
 class CollectionViewModel(
-    private val progressDao: PlayerProgressDao
+    private val progressDao: PlayerProgressDao,
+    private val prefs: SharedPreferences
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CollectionUiState())
     val uiState: StateFlow<CollectionUiState> = _uiState.asStateFlow()
 
+    private val acknowledgedIds: MutableSet<Int> =
+        prefs.getStringSet(KEY_ACKNOWLEDGED, emptySet())!!
+            .mapTo(mutableSetOf()) { it.toInt() }
+
     init {
         loadCollection()
     }
 
-    fun loadCollection() {
+    private fun loadCollection() {
         viewModelScope.launch {
             progressDao.getAllProgress().collect { progressList ->
                 val chicks = buildChickList(progressList)
+                val newlyUnlocked = chicks
+                    .filter { it.isUnlocked && it.id !in acknowledgedIds }
+                    .map { it.id }
+                    .toSet()
                 _uiState.update {
                     it.copy(
                         chicks = chicks,
-                        unlockedCount = chicks.count { c -> c.isUnlocked }
+                        unlockedCount = chicks.count { c -> c.isUnlocked },
+                        newlyUnlockedIds = newlyUnlocked
                     )
                 }
             }
         }
     }
 
+    fun acknowledgeUnlock(id: Int) {
+        acknowledgedIds.add(id)
+        prefs.edit()
+            .putStringSet(KEY_ACKNOWLEDGED, acknowledgedIds.map { it.toString() }.toSet())
+            .apply()
+        _uiState.update { it.copy(newlyUnlockedIds = it.newlyUnlockedIds - id) }
+    }
+
     private fun buildChickList(progressList: List<PlayerProgress>): List<ChickInfo> {
         val stars = progressList.associate { it.category to it.stars }
-
         return listOf(
-            ChickInfo(
-                id = 1,
-                name = "Breeds Chick",
-                drawableName = "chick_breeds",
-                unlockDescription = "Earn any star in Breeds",
-                isUnlocked = (stars["BREEDS"] ?: 0) >= 1
-            ),
-            ChickInfo(
-                id = 2,
-                name = "Egg Chick",
-                drawableName = "chick_eggs",
-                unlockDescription = "Earn any star in Eggs",
-                isUnlocked = (stars["EGGS"] ?: 0) >= 1
-            ),
-            ChickInfo(
-                id = 3,
-                name = "Farm Chick",
-                drawableName = "chick_feed_care",
-                unlockDescription = "Earn any star in Feed & Care",
-                isUnlocked = (stars["FEED_CARE"] ?: 0) >= 1
-            ),
-            ChickInfo(
-                id = 4,
-                name = "Health Chick",
-                drawableName = "chick_health",
-                unlockDescription = "Earn any star in Health",
-                isUnlocked = (stars["HEALTH"] ?: 0) >= 1
-            ),
-            ChickInfo(
-                id = 5,
-                name = "Fun Chick",
-                drawableName = "chick_fun_facts",
-                unlockDescription = "Earn any star in Fun Facts",
-                isUnlocked = (stars["FUN_FACTS"] ?: 0) >= 1
-            ),
-            ChickInfo(
-                id = 6,
-                name = "Master Chick",
-                drawableName = "chick_master",
-                unlockDescription = "Earn 3 stars in all 5 categories",
-                isUnlocked = Category.entries.all { cat -> (stars[cat.name] ?: 0) >= 3 }
-            )
+            ChickInfo(1, "Breeds Chick", "chick_breeds", "Earn any star in Breeds",
+                (stars["BREEDS"] ?: 0) >= 1),
+            ChickInfo(2, "Egg Chick", "chick_eggs", "Earn any star in Eggs",
+                (stars["EGGS"] ?: 0) >= 1),
+            ChickInfo(3, "Farm Chick", "chick_feed_care", "Earn any star in Feed & Care",
+                (stars["FEED_CARE"] ?: 0) >= 1),
+            ChickInfo(4, "Health Chick", "chick_health", "Earn any star in Health",
+                (stars["HEALTH"] ?: 0) >= 1),
+            ChickInfo(5, "Fun Chick", "chick_fun_facts", "Earn any star in Fun Facts",
+                (stars["FUN_FACTS"] ?: 0) >= 1),
+            ChickInfo(6, "Master Chick", "chick_master", "Earn 3\u2605 in all categories",
+                Category.entries.all { cat -> (stars[cat.name] ?: 0) >= 3 })
         )
+    }
+
+    companion object {
+        private const val KEY_ACKNOWLEDGED = "acknowledged_unlocks"
     }
 }

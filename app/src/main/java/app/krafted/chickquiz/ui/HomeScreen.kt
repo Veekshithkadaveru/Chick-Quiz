@@ -39,7 +39,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Collections
 import androidx.compose.material.icons.filled.Leaderboard
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.ButtonDefaults
@@ -47,9 +46,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -57,12 +53,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -76,13 +70,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.krafted.chickquiz.data.db.AppDatabase
 import app.krafted.chickquiz.ui.theme.ChickYellow
-import app.krafted.chickquiz.ui.theme.CoopBrown
 import app.krafted.chickquiz.ui.theme.CoopCream
 import app.krafted.chickquiz.ui.theme.GrassGreen
 import app.krafted.chickquiz.viewmodel.Category
 import app.krafted.chickquiz.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 internal data class CategoryStyle(val emoji: String, val accentColor: Color, val drawableName: String)
 
@@ -92,12 +84,6 @@ internal val categoryStyles = mapOf(
     "FEED_CARE" to CategoryStyle("🌾", Color(0xFF81C784), "chick_feed_care"),
     "HEALTH"    to CategoryStyle("💚", Color(0xFF4DB6AC), "chick_health"),
     "FUN_FACTS" to CategoryStyle("🎉", Color(0xFFCE93D8), "chick_fun_facts")
-)
-
-private val unlockRequirements = mapOf(
-    "FEED_CARE" to "Earn 1 ⭐ in Breeds to unlock",
-    "HEALTH"    to "Earn 1 ⭐ in Eggs to unlock",
-    "FUN_FACTS" to "Earn 2 ⭐ in any category to unlock"
 )
 
 @Composable
@@ -110,8 +96,6 @@ fun HomeScreen(
     val db = remember { AppDatabase.getInstance(context) }
     val viewModel = remember { HomeViewModel(db.playerProgressDao()) }
     val uiState by viewModel.uiState.collectAsState()
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
 
     val infiniteTransition = rememberInfiniteTransition(label = "home")
 
@@ -133,11 +117,6 @@ fun HomeScreen(
         initialValue = 0.55f, targetValue = 1f,
         animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse),
         label = "starShimmer"
-    )
-    val lockPulse by infiniteTransition.animateFloat(
-        initialValue = 1f, targetValue = 1.10f,
-        animationSpec = infiniteRepeatable(tween(900), RepeatMode.Reverse),
-        label = "lockPulse"
     )
     val dotGlow by infiniteTransition.animateFloat(
         initialValue = 0.4f, targetValue = 1f,
@@ -265,7 +244,6 @@ fun HomeScreen(
             Spacer(Modifier.height(14.dp))
 
             Category.entries.forEachIndexed { index, cat ->
-                val isUnlocked = uiState.unlockState[cat.name] ?: false
                 val stars = uiState.starRatings[cat.name] ?: 0
                 val style = categoryStyles[cat.name]!!
 
@@ -299,37 +277,23 @@ fun HomeScreen(
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .then(
-                                    if (isUnlocked)
-                                        Modifier.shadow(
-                                            elevation = 8.dp,
-                                            shape = RoundedCornerShape(18.dp),
-                                            ambientColor = style.accentColor.copy(0.25f),
-                                            spotColor  = style.accentColor.copy(0.15f)
-                                        )
-                                    else Modifier
+                                .shadow(
+                                    elevation = 8.dp,
+                                    shape = RoundedCornerShape(18.dp),
+                                    ambientColor = style.accentColor.copy(0.25f),
+                                    spotColor  = style.accentColor.copy(0.15f)
                                 )
                                 .clickable(
                                     interactionSource = cardInteraction,
                                     indication = null
-                                ) {
-                                    if (isUnlocked) onCategoryClick(cat.name)
-                                    else scope.launch {
-                                        snackbarHostState.showSnackbar(
-                                            unlockRequirements[cat.name] ?: "Complete more categories"
-                                        )
-                                    }
-                                },
+                                ) { onCategoryClick(cat.name) },
                             shape = RoundedCornerShape(18.dp),
                             colors = CardDefaults.cardColors(
-                                containerColor = if (isUnlocked) Color(0xFF2E3472) else Color(0xFF1E2248)
+                                containerColor = Color(0xFF2E3472)
                             ),
                             border = BorderStroke(
-                                width = if (isUnlocked) 1.5.dp else 1.dp,
-                                color = if (isUnlocked)
-                                    style.accentColor.copy(alpha = 0.55f)
-                                else
-                                    Color.White.copy(alpha = 0.12f)
+                                width = 1.5.dp,
+                                color = style.accentColor.copy(alpha = 0.55f)
                             ),
                             elevation = CardDefaults.cardElevation(0.dp)
                         ) {
@@ -345,16 +309,10 @@ fun HomeScreen(
                                             .fillMaxHeight()
                                             .background(
                                                 Brush.verticalGradient(
-                                                    if (isUnlocked)
-                                                        listOf(
-                                                            style.accentColor.copy(0.95f),
-                                                            style.accentColor.copy(0.35f)
-                                                        )
-                                                    else
-                                                        listOf(
-                                                            Color.White.copy(0.10f),
-                                                            Color.White.copy(0.04f)
-                                                        )
+                                                    listOf(
+                                                        style.accentColor.copy(0.95f),
+                                                        style.accentColor.copy(0.35f)
+                                                    )
                                                 )
                                             )
                                     )
@@ -374,43 +332,28 @@ fun HomeScreen(
                                             modifier = Modifier
                                                 .size(58.dp)
                                                 .shadow(
-                                                    elevation = if (isUnlocked) 10.dp else 0.dp,
+                                                    elevation = 10.dp,
                                                     shape = RoundedCornerShape(16.dp),
                                                     ambientColor = style.accentColor.copy(0.5f),
                                                     spotColor = style.accentColor.copy(0.3f)
                                                 )
                                                 .clip(RoundedCornerShape(16.dp))
                                                 .background(
-                                                    if (isUnlocked)
-                                                        Brush.radialGradient(
-                                                            listOf(
-                                                                style.accentColor.copy(0.55f),
-                                                                style.accentColor.copy(0.18f)
-                                                            )
+                                                    Brush.radialGradient(
+                                                        listOf(
+                                                            style.accentColor.copy(0.55f),
+                                                            style.accentColor.copy(0.18f)
                                                         )
-                                                    else
-                                                        Brush.radialGradient(
-                                                            listOf(
-                                                                Color.White.copy(0.14f),
-                                                                Color.White.copy(0.05f)
-                                                            )
-                                                        )
+                                                    )
                                                 ),
                                             contentAlignment = Alignment.Center
                                         ) {
-                                            if (isUnlocked && chickResId != 0) {
+                                            if (chickResId != 0) {
                                                 Image(
                                                     painter = painterResource(id = chickResId),
                                                     contentDescription = cat.displayName,
                                                     modifier = Modifier.fillMaxSize(),
                                                     contentScale = ContentScale.Crop
-                                                )
-                                            } else {
-                                                Icon(
-                                                    imageVector = Icons.Default.Lock,
-                                                    contentDescription = null,
-                                                    tint = Color.White.copy(0.45f),
-                                                    modifier = Modifier.size(24.dp)
                                                 )
                                             }
                                         }
@@ -423,8 +366,7 @@ fun HomeScreen(
                                                 fontWeight = FontWeight.ExtraBold,
                                                 fontSize = 14.sp,
                                                 letterSpacing = 0.8.sp,
-                                                color = if (isUnlocked) Color.White
-                                                        else Color.White.copy(0.40f)
+                                                color = Color.White
                                             )
                                             Spacer(Modifier.height(7.dp))
                                             Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
@@ -434,10 +376,8 @@ fun HomeScreen(
                                                                       else Icons.Default.StarBorder,
                                                         contentDescription = null,
                                                         tint = when {
-                                                            i < stars && isUnlocked ->
-                                                                style.accentColor.copy(starShimmer)
                                                             i < stars ->
-                                                                style.accentColor.copy(0.25f)
+                                                                style.accentColor.copy(starShimmer)
                                                             else ->
                                                                 Color.White.copy(0.12f)
                                                         },
@@ -447,46 +387,35 @@ fun HomeScreen(
                                             }
                                         }
 
-                                        if (!isUnlocked) {
-                                            Icon(
-                                                imageVector = Icons.Default.Lock,
-                                                contentDescription = null,
-                                                tint = Color.White.copy(0.38f),
-                                                modifier = Modifier.size(20.dp).scale(lockPulse)
-                                            )
-                                        } else {
-                                            Box(
-                                                modifier = Modifier
-                                                    .size(10.dp)
-                                                    .shadow(
-                                                        elevation = (6 * dotGlow).dp,
-                                                        shape = CircleShape,
-                                                        ambientColor = style.accentColor
-                                                    )
-                                                    .clip(CircleShape)
-                                                    .background(style.accentColor)
-                                            )
-                                        }
+                                        Box(
+                                            modifier = Modifier
+                                                .size(10.dp)
+                                                .shadow(
+                                                    elevation = (6 * dotGlow).dp,
+                                                    shape = CircleShape,
+                                                    ambientColor = style.accentColor
+                                                )
+                                                .clip(CircleShape)
+                                                .background(style.accentColor)
+                                        )
                                     }
                                 }
 
-                                if (isUnlocked) {
-                                    Box(
-                                        modifier = Modifier
-                                            .matchParentSize()
-                                            .background(
-                                                Brush.linearGradient(
-                                                    colors = listOf(
-                                                        Color.Transparent,
-                                                        Color.White.copy(alpha = 0.055f),
-                                                        Color.Transparent
-                                                    ),
-                                                    start = Offset(shimmerOffset - 180f, 0f),
-                                                    end   = Offset(shimmerOffset + 180f, 320f)
-                                                )
+                                Box(
+                                    modifier = Modifier
+                                        .matchParentSize()
+                                        .background(
+                                            Brush.linearGradient(
+                                                colors = listOf(
+                                                    Color.Transparent,
+                                                    Color.White.copy(alpha = 0.055f),
+                                                    Color.Transparent
+                                                ),
+                                                start = Offset(shimmerOffset - 180f, 0f),
+                                                end   = Offset(shimmerOffset + 180f, 320f)
                                             )
-                                    )
-                                }
+                                        )
+                                )
                             }
                         }
                     }
@@ -557,18 +486,5 @@ fun HomeScreen(
             Spacer(Modifier.height(52.dp))
         }
 
-        SnackbarHost(
-            hostState = snackbarHostState,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 20.dp)
-        ) { data ->
-            Snackbar(
-                snackbarData = data,
-                containerColor = CoopBrown,
-                contentColor = CoopCream,
-                shape = RoundedCornerShape(14.dp)
-            )
-        }
     }
 }

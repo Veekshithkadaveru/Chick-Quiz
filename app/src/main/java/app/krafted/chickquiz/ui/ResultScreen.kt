@@ -60,14 +60,6 @@ import app.krafted.chickquiz.ui.theme.CoopCream
 import app.krafted.chickquiz.ui.theme.CorrectGreen
 import kotlinx.coroutines.delay
 
-private val categoryDisplayNames = mapOf(
-    "BREEDS" to "Breeds",
-    "EGGS" to "Eggs",
-    "FEED_CARE" to "Feed & Care",
-    "HEALTH" to "Health",
-    "FUN_FACTS" to "Fun Facts"
-)
-
 @Composable
 fun ResultScreen(
     category: String,
@@ -75,7 +67,6 @@ fun ResultScreen(
     correctCount: Int,
     isPersonalBest: Boolean,
     starsEarned: Int,
-    newUnlocks: List<String>,
     onPlayAgain: () -> Unit,
     onHome: () -> Unit
 ) {
@@ -256,44 +247,6 @@ fun ResultScreen(
                     }
                 }
                 Spacer(Modifier.height(20.dp))
-            }
-
-            if (newUnlocks.isNotEmpty()) {
-                newUnlocks.forEach { unlock ->
-                    val unlockName = categoryDisplayNames[unlock] ?: unlock.replace("_", " ")
-                    var unlockVisible by remember { mutableStateOf(false) }
-                    LaunchedEffect(Unit) {
-                        delay(2200L)
-                        unlockVisible = true
-                    }
-                    AnimatedVisibility(
-                        visible = unlockVisible,
-                        enter = scaleIn(initialScale = 0.8f) + fadeIn()
-                    ) {
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 4.dp),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = CorrectGreen.copy(0.18f)
-                            ),
-                            border = BorderStroke(1.dp, CorrectGreen.copy(0.5f))
-                        ) {
-                            Text(
-                                text = "\uD83D\uDD13 $unlockName Unlocked!",
-                                color = CorrectGreen,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 14.dp)
-                            )
-                        }
-                    }
-                }
-                Spacer(Modifier.height(16.dp))
             }
 
             Spacer(Modifier.weight(1f))
