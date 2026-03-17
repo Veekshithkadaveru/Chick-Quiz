@@ -84,14 +84,14 @@ import app.krafted.chickquiz.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-internal data class CategoryStyle(val emoji: String, val accentColor: Color)
+internal data class CategoryStyle(val emoji: String, val accentColor: Color, val drawableName: String)
 
 internal val categoryStyles = mapOf(
-    "BREEDS"    to CategoryStyle("🐔", Color(0xFFF5C518)),
-    "EGGS"      to CategoryStyle("🥚", Color(0xFFFFCC80)),
-    "FEED_CARE" to CategoryStyle("🌾", Color(0xFF81C784)),
-    "HEALTH"    to CategoryStyle("💚", Color(0xFF4DB6AC)),
-    "FUN_FACTS" to CategoryStyle("🎉", Color(0xFFCE93D8))
+    "BREEDS"    to CategoryStyle("🐔", Color(0xFFF5C518), "chick_breeds"),
+    "EGGS"      to CategoryStyle("🥚", Color(0xFFFFCC80), "chick_eggs"),
+    "FEED_CARE" to CategoryStyle("🌾", Color(0xFF81C784), "chick_feed_care"),
+    "HEALTH"    to CategoryStyle("💚", Color(0xFF4DB6AC), "chick_health"),
+    "FUN_FACTS" to CategoryStyle("🎉", Color(0xFFCE93D8), "chick_fun_facts")
 )
 
 private val unlockRequirements = mapOf(
@@ -115,7 +115,6 @@ fun HomeScreen(
 
     val infiniteTransition = rememberInfiniteTransition(label = "home")
 
-    // Gentle icon float
     val iconFloat by infiniteTransition.animateFloat(
         initialValue = -3f, targetValue = 3f,
         animationSpec = infiniteRepeatable(
@@ -123,7 +122,6 @@ fun HomeScreen(
         ),
         label = "iconFloat"
     )
-    // Shimmer sweep across cards
     val shimmerOffset by infiniteTransition.animateFloat(
         initialValue = -500f, targetValue = 900f,
         animationSpec = infiniteRepeatable(
@@ -131,19 +129,16 @@ fun HomeScreen(
         ),
         label = "shimmer"
     )
-    // Star shimmer
     val starShimmer by infiniteTransition.animateFloat(
         initialValue = 0.55f, targetValue = 1f,
         animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse),
         label = "starShimmer"
     )
-    // Lock pulse
     val lockPulse by infiniteTransition.animateFloat(
         initialValue = 1f, targetValue = 1.10f,
         animationSpec = infiniteRepeatable(tween(900), RepeatMode.Reverse),
         label = "lockPulse"
     )
-    // Status dot glow
     val dotGlow by infiniteTransition.animateFloat(
         initialValue = 0.4f, targetValue = 1f,
         animationSpec = infiniteRepeatable(tween(1400), RepeatMode.Reverse),
@@ -165,7 +160,6 @@ fun HomeScreen(
             )
         }
 
-        // Dark overlay — slightly lighter at mid-screen so cards pop
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -189,12 +183,10 @@ fun HomeScreen(
         ) {
             Spacer(Modifier.height(60.dp))
 
-            // ── Header ──────────────────────────────────────
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                // Floating icon with glow halo
                 Box(
                     modifier = Modifier
                         .graphicsLayer { translationY = iconFloat }
@@ -233,7 +225,6 @@ fun HomeScreen(
 
             Spacer(Modifier.height(12.dp))
 
-            // Gradient divider
             Box(
                 modifier = Modifier
                     .fillMaxWidth(0.55f)
@@ -247,7 +238,6 @@ fun HomeScreen(
 
             Spacer(Modifier.height(32.dp))
 
-            // ── Section label ────────────────────────────────
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -274,7 +264,6 @@ fun HomeScreen(
 
             Spacer(Modifier.height(14.dp))
 
-            // ── Category cards ───────────────────────────────
             Category.entries.forEachIndexed { index, cat ->
                 val isUnlocked = uiState.unlockState[cat.name] ?: false
                 val stars = uiState.starRatings[cat.name] ?: 0
@@ -345,13 +334,11 @@ fun HomeScreen(
                             elevation = CardDefaults.cardElevation(0.dp)
                         ) {
                             Box {
-                                // Card content
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .height(IntrinsicSize.Min)
                                 ) {
-                                    // Left accent strip
                                     Box(
                                         modifier = Modifier
                                             .width(4.dp)
@@ -378,22 +365,27 @@ fun HomeScreen(
                                             .padding(horizontal = 16.dp, vertical = 15.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        // Icon box
+                                        val chickResId = remember(cat.name) {
+                                            context.resources.getIdentifier(
+                                                style.drawableName, "drawable", context.packageName
+                                            )
+                                        }
                                         Box(
                                             modifier = Modifier
-                                                .size(52.dp)
+                                                .size(58.dp)
                                                 .shadow(
-                                                    elevation = if (isUnlocked) 6.dp else 0.dp,
-                                                    shape = RoundedCornerShape(14.dp),
-                                                    ambientColor = style.accentColor.copy(0.4f)
+                                                    elevation = if (isUnlocked) 10.dp else 0.dp,
+                                                    shape = RoundedCornerShape(16.dp),
+                                                    ambientColor = style.accentColor.copy(0.5f),
+                                                    spotColor = style.accentColor.copy(0.3f)
                                                 )
-                                                .clip(RoundedCornerShape(14.dp))
+                                                .clip(RoundedCornerShape(16.dp))
                                                 .background(
                                                     if (isUnlocked)
                                                         Brush.radialGradient(
                                                             listOf(
-                                                                style.accentColor.copy(0.45f),
-                                                                style.accentColor.copy(0.12f)
+                                                                style.accentColor.copy(0.55f),
+                                                                style.accentColor.copy(0.18f)
                                                             )
                                                         )
                                                     else
@@ -406,10 +398,21 @@ fun HomeScreen(
                                                 ),
                                             contentAlignment = Alignment.Center
                                         ) {
-                                            Text(
-                                                text = if (isUnlocked) style.emoji else "🔒",
-                                                fontSize = 24.sp
-                                            )
+                                            if (isUnlocked && chickResId != 0) {
+                                                Image(
+                                                    painter = painterResource(id = chickResId),
+                                                    contentDescription = cat.displayName,
+                                                    modifier = Modifier.fillMaxSize(),
+                                                    contentScale = ContentScale.Crop
+                                                )
+                                            } else {
+                                                Icon(
+                                                    imageVector = Icons.Default.Lock,
+                                                    contentDescription = null,
+                                                    tint = Color.White.copy(0.45f),
+                                                    modifier = Modifier.size(24.dp)
+                                                )
+                                            }
                                         }
 
                                         Spacer(Modifier.width(16.dp))
@@ -452,7 +455,6 @@ fun HomeScreen(
                                                 modifier = Modifier.size(20.dp).scale(lockPulse)
                                             )
                                         } else {
-                                            // Pulsing status dot
                                             Box(
                                                 modifier = Modifier
                                                     .size(10.dp)
@@ -468,7 +470,6 @@ fun HomeScreen(
                                     }
                                 }
 
-                                // Shimmer sweep overlay (unlocked cards only)
                                 if (isUnlocked) {
                                     Box(
                                         modifier = Modifier
@@ -494,7 +495,6 @@ fun HomeScreen(
 
             Spacer(Modifier.height(34.dp))
 
-            // ── Bottom buttons ───────────────────────────────
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)

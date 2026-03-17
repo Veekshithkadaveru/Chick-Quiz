@@ -159,21 +159,27 @@ class QuizViewModel(
 
     private suspend fun checkNewUnlocks(category: String, newStars: Int): List<String> {
         val unlocks = mutableListOf<String>()
-        val allProgress = mutableMapOf<String, Int>()
+        val previousProgress = mutableMapOf<String, Int>()
 
         Category.entries.forEach { cat ->
             val p = progressDao.getProgress(cat.name)
-            allProgress[cat.name] = p?.stars ?: 0
+            previousProgress[cat.name] = p?.stars ?: 0
         }
-        allProgress[category] = maxOf(allProgress[category] ?: 0, newStars)
+
+        // Stars before this session (for unlock threshold comparison)
+        val prevStars = previousProgress[category] ?: 0
+        val allProgress = previousProgress.toMutableMap()
+        allProgress[category] = maxOf(prevStars, newStars)
 
         val breedsStars = allProgress["BREEDS"] ?: 0
         val eggsStars = allProgress["EGGS"] ?: 0
         val maxStars = allProgress.values.maxOrNull() ?: 0
+        val prevMaxStars = previousProgress.values.maxOrNull() ?: 0
 
-        if (breedsStars >= 1 && category == "BREEDS") unlocks += "FEED_CARE"
-        if (eggsStars >= 1 && category == "EGGS") unlocks += "HEALTH"
-        if (maxStars >= 2) unlocks += "FUN_FACTS"
+        // Only report as new unlock if the threshold was just crossed this session
+        if (breedsStars >= 1 && prevStars < 1 && category == "BREEDS") unlocks += "FEED_CARE"
+        if (eggsStars >= 1 && prevStars < 1 && category == "EGGS") unlocks += "HEALTH"
+        if (maxStars >= 2 && prevMaxStars < 2) unlocks += "FUN_FACTS"
 
         return unlocks
     }

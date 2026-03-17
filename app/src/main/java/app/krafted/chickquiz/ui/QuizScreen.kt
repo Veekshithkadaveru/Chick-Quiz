@@ -40,6 +40,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -63,6 +65,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
@@ -70,11 +73,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.krafted.chickquiz.data.db.AppDatabase
 import app.krafted.chickquiz.data.questions.QuestionRepository
+import app.krafted.chickquiz.ui.components.MamaHen
 import app.krafted.chickquiz.ui.components.TimerBar
 import app.krafted.chickquiz.ui.theme.ChickYellow
 import app.krafted.chickquiz.ui.theme.CoopCream
 import app.krafted.chickquiz.ui.theme.CorrectGreen
 import app.krafted.chickquiz.ui.theme.WrongRed
+import app.krafted.chickquiz.viewmodel.MamaHenState
 import app.krafted.chickquiz.viewmodel.QuizViewModel
 import kotlinx.coroutines.delay
 
@@ -83,8 +88,7 @@ private val optionLabels = listOf("A", "B", "C", "D")
 @Composable
 fun QuizScreen(
     category: String,
-    onAnswerRevealed: () -> Unit,
-    onSessionComplete: () -> Unit,
+    onSessionComplete: (Int, Int, Boolean, Int, String) -> Unit,
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
@@ -123,15 +127,16 @@ fun QuizScreen(
         }
     }
 
-    LaunchedEffect(uiState.isAnswerRevealed) {
-        if (uiState.isAnswerRevealed) {
-            if (uiState.currentIndex + 1 >= uiState.questions.size) viewModel.onNextQuestion()
-            else onAnswerRevealed()
-        }
-    }
-
     LaunchedEffect(uiState.sessionComplete) {
-        if (uiState.sessionComplete) onSessionComplete()
+        if (uiState.sessionComplete) {
+            onSessionComplete(
+                uiState.score,
+                uiState.correctCount,
+                uiState.isPersonalBest,
+                uiState.starsEarned,
+                uiState.newUnlocks.joinToString(",")
+            )
+        }
     }
 
     val bgResId = remember {
@@ -205,7 +210,6 @@ fun QuizScreen(
         ) {
             Spacer(Modifier.height(54.dp))
 
-            // ── Header ──────────────────────────────────────
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -256,7 +260,6 @@ fun QuizScreen(
                     }
                 }
 
-                // Score chip with slide-up animation on change
                 AnimatedContent(
                     targetState = uiState.score,
                     transitionSpec = {
@@ -292,7 +295,6 @@ fun QuizScreen(
 
             Spacer(Modifier.height(20.dp))
 
-            // ── Timer row ────────────────────────────────────
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -320,7 +322,6 @@ fun QuizScreen(
 
             Spacer(Modifier.height(22.dp))
 
-            // ── Question card ────────────────────────────────
             AnimatedContent(
                 targetState = uiState.currentIndex,
                 transitionSpec = {
@@ -345,7 +346,6 @@ fun QuizScreen(
                     elevation = CardDefaults.cardElevation(0.dp)
                 ) {
                     Column {
-                        // Category-colored top strip
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -381,7 +381,6 @@ fun QuizScreen(
 
             Spacer(Modifier.height(20.dp))
 
-            // ── Answer buttons ───────────────────────────────
             var showPoints by remember { mutableStateOf(false) }
             var earnedPoints by remember { mutableIntStateOf(0) }
 
@@ -428,7 +427,6 @@ fun QuizScreen(
 
             Spacer(Modifier.weight(1f))
 
-            // ── Progress segments ────────────────────────────
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -473,6 +471,114 @@ fun QuizScreen(
             }
         }
 
+        if (uiState.isAnswerRevealed) {
+            val wasCorrect = uiState.selectedAnswer == currentQuestion.correctIndex
+            val funFact = currentQuestion.funFact
+            val correctAnswer = currentQuestion.options[currentQuestion.correctIndex]
+
+            var displayedLength by remember(uiState.currentIndex) { mutableIntStateOf(0) }
+            LaunchedEffect(uiState.currentIndex, uiState.isAnswerRevealed) {
+                displayedLength = 0
+                for (i in funFact.indices) {
+                    delay(30)
+                    displayedLength = i + 1
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xE8000820))
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) { viewModel.onNextQuestion() }
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(Modifier.height(52.dp))
+
+                    val resultHenState = if (wasCorrect) MamaHenState.HAPPY else MamaHenState.SAD
+                    val resultColor = if (wasCorrect) CorrectGreen else WrongRed
+                    val resultLabel = if (wasCorrect) "Correct!" else "Not quite..."
+
+                    MamaHen(
+                        state = resultHenState,
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        size = 130
+                    )
+
+                    Spacer(Modifier.height(16.dp))
+
+                    Text(
+                        text = resultLabel,
+                        color = resultColor,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Spacer(Modifier.height(24.dp))
+
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(22.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFF2E3472)),
+                        border = BorderStroke(1.5.dp, ChickYellow.copy(0.45f))
+                    ) {
+                        Column(modifier = Modifier.padding(24.dp)) {
+                            Text(
+                                text = "Did you know?",
+                                color = ChickYellow,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Spacer(Modifier.height(14.dp))
+                            Text(
+                                text = funFact.take(displayedLength),
+                                color = CoopCream,
+                                fontSize = 15.sp,
+                                lineHeight = 24.sp,
+                                fontStyle = FontStyle.Italic
+                            )
+                            Spacer(Modifier.height(18.dp))
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(Color.White.copy(0.08f))
+                                    .padding(horizontal = 16.dp, vertical = 10.dp)
+                            ) {
+                                Text(
+                                    text = "Answer: $correctAnswer",
+                                    color = if (wasCorrect) CorrectGreen else ChickYellow,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            }
+                        }
+                    }
+
+                    Spacer(Modifier.weight(1f))
+
+                    Text(
+                        text = "Tap anywhere to continue",
+                        color = CoopCream.copy(0.45f),
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Spacer(Modifier.height(38.dp))
+                }
+            }
+        }
     }
 }
 
@@ -491,7 +597,6 @@ private fun AnswerButton(
     val isRevealed = selectedAnswer != null
     val isWrongSelection = isSelected && !isCorrect
 
-    // Staggered entrance per question
     var visible by remember(questionIndex) { mutableStateOf(false) }
     LaunchedEffect(questionIndex) {
         visible = false
@@ -517,7 +622,6 @@ private fun AnswerButton(
         }
     }
 
-    // Press feedback
     val btnInteraction = remember { MutableInteractionSource() }
     val isPressed by btnInteraction.collectIsPressedAsState()
     val pressScale by animateFloatAsState(
@@ -589,7 +693,6 @@ private fun AnswerButton(
                     .padding(horizontal = 4.dp, vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Option label (A / B / C / D)
                 Box(
                     modifier = Modifier
                         .size(36.dp)

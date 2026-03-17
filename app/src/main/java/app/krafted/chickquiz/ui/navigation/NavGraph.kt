@@ -1,5 +1,6 @@
 package app.krafted.chickquiz.ui.navigation
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
@@ -8,7 +9,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import app.krafted.chickquiz.ui.AnswerRevealScreen
 import app.krafted.chickquiz.ui.CollectionScreen
 import app.krafted.chickquiz.ui.HomeScreen
 import app.krafted.chickquiz.ui.LeaderboardScreen
@@ -22,11 +22,9 @@ sealed class Screen(val route: String) {
     object Quiz : Screen("quiz/{category}") {
         fun createRoute(category: String) = "quiz/$category"
     }
-    object AnswerReveal : Screen("answer_reveal/{category}") {
-        fun createRoute(category: String) = "answer_reveal/$category"
-    }
-    object Result : Screen("result/{category}") {
-        fun createRoute(category: String) = "result/$category"
+    object Result : Screen("result/{category}?score={score}&correctCount={correctCount}&isPersonalBest={isPersonalBest}&starsEarned={starsEarned}&newUnlocks={newUnlocks}") {
+        fun createRoute(category: String, score: Int, correctCount: Int, isPersonalBest: Boolean, starsEarned: Int, newUnlocks: String) =
+            "result/$category?score=$score&correctCount=$correctCount&isPersonalBest=$isPersonalBest&starsEarned=$starsEarned&newUnlocks=${Uri.encode(newUnlocks)}"
     }
     object Collection : Screen("collection")
     object Leaderboard : Screen("leaderboard/{category}") {
@@ -95,11 +93,10 @@ fun ChickQuizNavGraph(navController: NavHostController) {
             val category = backStackEntry.arguments?.getString("category") ?: "BREEDS"
             QuizScreen(
                 category = category,
-                onAnswerRevealed = {
-                    navController.navigate(Screen.AnswerReveal.createRoute(category))
-                },
-                onSessionComplete = {
-                    navController.navigate(Screen.Result.createRoute(category)) {
+                onSessionComplete = { score, correctCount, isPersonalBest, starsEarned, newUnlocks ->
+                    navController.navigate(
+                        Screen.Result.createRoute(category, score, correctCount, isPersonalBest, starsEarned, newUnlocks)
+                    ) {
                         popUpTo(Screen.Quiz.route) { inclusive = true }
                     }
                 },
@@ -108,25 +105,30 @@ fun ChickQuizNavGraph(navController: NavHostController) {
         }
 
         composable(
-            route = Screen.AnswerReveal.route,
-            arguments = listOf(
-                navArgument("category") { type = NavType.StringType }
-            )
-        ) {
-            AnswerRevealScreen(
-                onNext = { navController.popBackStack() }
-            )
-        }
-
-        composable(
             route = Screen.Result.route,
             arguments = listOf(
-                navArgument("category") { type = NavType.StringType }
+                navArgument("category") { type = NavType.StringType },
+                navArgument("score") { type = NavType.IntType; defaultValue = 0 },
+                navArgument("correctCount") { type = NavType.IntType; defaultValue = 0 },
+                navArgument("isPersonalBest") { type = NavType.BoolType; defaultValue = false },
+                navArgument("starsEarned") { type = NavType.IntType; defaultValue = 0 },
+                navArgument("newUnlocks") { type = NavType.StringType; defaultValue = "" }
             )
         ) { backStackEntry ->
             val category = backStackEntry.arguments?.getString("category") ?: "BREEDS"
+            val score = backStackEntry.arguments?.getInt("score") ?: 0
+            val correctCount = backStackEntry.arguments?.getInt("correctCount") ?: 0
+            val isPersonalBest = backStackEntry.arguments?.getBoolean("isPersonalBest", false) ?: false
+            val starsEarned = backStackEntry.arguments?.getInt("starsEarned") ?: 0
+            val newUnlocks = backStackEntry.arguments?.getString("newUnlocks")
+                ?.split(",")?.filter { it.isNotBlank() } ?: emptyList()
             ResultScreen(
                 category = category,
+                score = score,
+                correctCount = correctCount,
+                isPersonalBest = isPersonalBest,
+                starsEarned = starsEarned,
+                newUnlocks = newUnlocks,
                 onPlayAgain = {
                     navController.navigate(Screen.Quiz.createRoute(category)) {
                         popUpTo(Screen.Home.route)
