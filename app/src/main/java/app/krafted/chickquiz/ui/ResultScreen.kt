@@ -1,5 +1,6 @@
 package app.krafted.chickquiz.ui
 
+import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -24,6 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Replay
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
@@ -33,6 +35,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,6 +44,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,11 +59,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.krafted.chickquiz.data.db.AppDatabase
 import app.krafted.chickquiz.ui.components.ConfettiCanvas
 import app.krafted.chickquiz.ui.theme.ChickYellow
 import app.krafted.chickquiz.ui.theme.CoopCream
 import app.krafted.chickquiz.ui.theme.CorrectGreen
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun ResultScreen(
@@ -67,16 +74,23 @@ fun ResultScreen(
     correctCount: Int,
     isPersonalBest: Boolean,
     starsEarned: Int,
+    recordId: Int = 0,
     onPlayAgain: () -> Unit,
     onHome: () -> Unit
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val db = remember { AppDatabase.getInstance(context) }
+    val prefs = remember { context.getSharedPreferences("chick_quiz", Context.MODE_PRIVATE) }
+
     val bgResId = remember {
         context.resources.getIdentifier("bg_result", "drawable", context.packageName)
     }
 
     val categoryAccent = categoryStyles[category]?.accentColor ?: ChickYellow
     val categoryEmoji = categoryStyles[category]?.emoji ?: ""
+
+    var playerName by remember { mutableStateOf(prefs.getString("player_name", "") ?: "") }
 
     var animatedScore by remember { mutableIntStateOf(0) }
     LaunchedEffect(score) {
@@ -248,6 +262,41 @@ fun ResultScreen(
                 }
                 Spacer(Modifier.height(20.dp))
             }
+
+            // Name entry
+            OutlinedTextField(
+                value = playerName,
+                onValueChange = { newName ->
+                    playerName = newName
+                    prefs.edit().putString("player_name", newName).apply()
+                    if (recordId > 0) {
+                        scope.launch {
+                            db.scoreRecordDao().updatePlayerName(recordId, newName)
+                        }
+                    }
+                },
+                label = { Text("Your Name", color = CoopCream.copy(0.5f)) },
+                leadingIcon = {
+                    Icon(
+                        Icons.Filled.Person,
+                        contentDescription = null,
+                        tint = categoryAccent.copy(0.7f),
+                        modifier = Modifier.size(20.dp)
+                    )
+                },
+                singleLine = true,
+                shape = RoundedCornerShape(16.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = CoopCream,
+                    cursorColor = ChickYellow,
+                    focusedBorderColor = categoryAccent.copy(0.6f),
+                    unfocusedBorderColor = CoopCream.copy(0.15f),
+                    focusedContainerColor = Color.White.copy(0.05f),
+                    unfocusedContainerColor = Color.White.copy(0.03f)
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
 
             Spacer(Modifier.weight(1f))
 

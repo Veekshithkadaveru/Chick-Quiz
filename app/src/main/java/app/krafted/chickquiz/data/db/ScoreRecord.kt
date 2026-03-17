@@ -9,5 +9,6 @@ data class ScoreRecord(
     val category: String,
     val score: Int,
     val correctCount: Int,
+    val playerName: String = "",
     val timestamp: Long = System.currentTimeMillis()
 )

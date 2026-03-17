@@ -36,7 +36,8 @@ data class QuizUiState(
     val mamaHenState: MamaHenState = MamaHenState.IDLE,
     val isPersonalBest: Boolean = false,
     val starsEarned: Int = 0,
-    val timerKey: Int = 0
+    val timerKey: Int = 0,
+    val lastScoreRecordId: Int = 0
 )
 
 class QuizViewModel(
@@ -48,7 +49,10 @@ class QuizViewModel(
     private val _uiState = MutableStateFlow(QuizUiState())
     val uiState: StateFlow<QuizUiState> = _uiState.asStateFlow()
 
-    fun startSession(category: String) {
+    private var playerName: String = ""
+
+    fun startSession(category: String, name: String = "") {
+        playerName = name
         viewModelScope.launch {
             val allQuestions = repository.loadQuestions()
             val questions = QuestionShuffler.getSessionQuestions(allQuestions, category)
@@ -135,11 +139,12 @@ class QuizViewModel(
                 )
             )
 
-            scoreDao.insert(
+            val recordId = scoreDao.insert(
                 ScoreRecord(
                     category = category,
                     score = state.score,
-                    correctCount = state.correctCount
+                    correctCount = state.correctCount,
+                    playerName = playerName
                 )
             )
 
@@ -147,7 +152,8 @@ class QuizViewModel(
                 it.copy(
                     sessionComplete = true,
                     isPersonalBest = isPersonalBest,
-                    starsEarned = stars
+                    starsEarned = stars,
+                    lastScoreRecordId = recordId.toInt()
                 )
             }
         }

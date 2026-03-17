@@ -88,7 +88,7 @@ private val optionLabels = listOf("A", "B", "C", "D")
 @Composable
 fun QuizScreen(
     category: String,
-    onSessionComplete: (Int, Int, Boolean, Int) -> Unit,
+    onSessionComplete: (score: Int, correctCount: Int, isPersonalBest: Boolean, starsEarned: Int, recordId: Int) -> Unit,
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
@@ -106,7 +106,12 @@ fun QuizScreen(
 
     val categoryAccent = categoryStyles[category]?.accentColor ?: ChickYellow
 
-    LaunchedEffect(Unit) { viewModel.startSession(category) }
+    val savedName = remember {
+        context.getSharedPreferences("chick_quiz", android.content.Context.MODE_PRIVATE)
+            .getString("player_name", "") ?: ""
+    }
+
+    LaunchedEffect(Unit) { viewModel.startSession(category, savedName) }
 
     LaunchedEffect(uiState.timerKey) {
         if (uiState.questions.isEmpty()) return@LaunchedEffect
@@ -133,7 +138,8 @@ fun QuizScreen(
                 uiState.score,
                 uiState.correctCount,
                 uiState.isPersonalBest,
-                uiState.starsEarned
+                uiState.starsEarned,
+                uiState.lastScoreRecordId
             )
         }
     }
