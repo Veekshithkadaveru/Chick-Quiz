@@ -349,6 +349,356 @@
       "options": ["USA", "Brazil", "Guyana", "China"],
       "correctIndex": 2, "timeLimit": 10,
       "funFact": "Guyana has approximately 4.4 chickens per person driven by its large poultry farming industry."
+    },
+    {
+      "id": 51, "category": "BREEDS", "difficulty": "EASY",
+      "question": "Which breed is famous for its heavily feathered feet and gentle temperament?",
+      "options": ["Plymouth Rock", "Cochin", "Wyandotte", "Leghorn"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "Cochin chickens were brought from China to England in the 1840s and caused a chicken-keeping craze known as Hen Fever."
+    },
+    {
+      "id": 52, "category": "BREEDS", "difficulty": "EASY",
+      "question": "What colour eggs do White Leghorn chickens typically lay?",
+      "options": ["Brown", "Blue", "Cream", "White"],
+      "correctIndex": 3, "timeLimit": 15,
+      "funFact": "Leghorns are highly efficient layers and are the primary breed used in commercial egg production worldwide."
+    },
+    {
+      "id": 53, "category": "BREEDS", "difficulty": "EASY",
+      "question": "Which British breed is well known for being excessively broody and a devoted mother hen?",
+      "options": ["Rhode Island Red", "Leghorn", "Orpington", "Minorca"],
+      "correctIndex": 2, "timeLimit": 15,
+      "funFact": "Buff Orpingtons are so reliably broody that keepers often use them as surrogate mothers for other breeds' eggs."
+    },
+    {
+      "id": 54, "category": "BREEDS", "difficulty": "MEDIUM",
+      "question": "Which breed is identified by its distinctive barred black-and-white feather pattern?",
+      "options": ["Australorp", "Wyandotte", "Plymouth Rock", "Sussex"],
+      "correctIndex": 2, "timeLimit": 12,
+      "funFact": "The barred pattern in Plymouth Rocks is caused by a sex-linked gene — making it one of the most studied feather colour patterns in genetics."
+    },
+    {
+      "id": 55, "category": "BREEDS", "difficulty": "MEDIUM",
+      "question": "What type of comb does the Wyandotte breed have, making it cold-hardy?",
+      "options": ["Single comb", "Rose comb", "Pea comb", "V-shaped comb"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "The rose comb sits flat to the head reducing frostbite risk — making Wyandottes an ideal choice for cold-climate keepers."
+    },
+    {
+      "id": 56, "category": "BREEDS", "difficulty": "MEDIUM",
+      "question": "Which breed is prized for laying very dark chocolate-brown eggs?",
+      "options": ["Welsummer", "Marans", "New Hampshire", "Barnevelder"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "Marans eggs are so prized in French cuisine that chef Julia Child kept Marans chickens specifically for their dark beautiful eggs."
+    },
+    {
+      "id": 57, "category": "BREEDS", "difficulty": "HARD",
+      "question": "Which exotic Indonesian breed has completely black feathers, skin, meat, and bones?",
+      "options": ["Silkie", "Australorp", "Jersey Giant", "Ayam Cemani"],
+      "correctIndex": 3, "timeLimit": 10,
+      "funFact": "Ayam Cemani's all-black colouring is caused by a genetic condition called fibromelanosis which triggers hyperpigmentation throughout the body."
+    },
+    {
+      "id": 58, "category": "BREEDS", "difficulty": "HARD",
+      "question": "What unique anatomical feature does the ancient Dorking breed have?",
+      "options": ["Three toes", "Feathered feet", "Five toes", "A bare neck"],
+      "correctIndex": 2, "timeLimit": 10,
+      "funFact": "The Dorking's fifth toe is non-functional but has been a defining trait since Roman times — Julius Caesar reportedly brought them to Britain."
+    },
+    {
+      "id": 59, "category": "BREEDS", "difficulty": "HARD",
+      "question": "Which American breed was developed by crossing New Hampshire and Barred Plymouth Rock chickens?",
+      "options": ["Jersey Giant", "Delaware", "Dominique", "Sussex"],
+      "correctIndex": 1, "timeLimit": 10,
+      "funFact": "The Delaware breed was nearly extinct by the 1950s when commercial broiler production shifted to Cornish Cross hybrids but was revived by heritage breed enthusiasts."
+    },
+    {
+      "id": 60, "category": "BREEDS", "difficulty": "HARD",
+      "question": "Which French breed holds a protected designation of origin and is considered the world's finest table bird?",
+      "options": ["Faverolles", "Houdan", "Bresse", "Coucou de Rennes"],
+      "correctIndex": 2, "timeLimit": 10,
+      "funFact": "Poulet de Bresse has AOC status like Champagne wine. Authentic birds have blue feet, white feathers, and a red comb — representing the French tricolour flag."
+    },
+    {
+      "id": 61, "category": "EGGS", "difficulty": "EASY",
+      "question": "What is the natural protective coating on a freshly laid egg called?",
+      "options": ["Shell coat", "Glaze", "Bloom", "Wax layer"],
+      "correctIndex": 2, "timeLimit": 15,
+      "funFact": "The bloom seals the egg's 17,000 pores to prevent bacteria entering. Washing removes it — which is why US refrigerated eggs differ from unwashed European eggs."
+    },
+    {
+      "id": 62, "category": "EGGS", "difficulty": "EASY",
+      "question": "What causes a double yolk egg?",
+      "options": ["Two hens laying in the same nest", "A genetic defect in the shell", "Two yolks released simultaneously", "Very old or very young hens only"],
+      "correctIndex": 2, "timeLimit": 15,
+      "funFact": "Double yolk eggs occur about once in every 1,000 eggs and are most common in young hens whose laying cycle hasn't yet fully regulated."
+    },
+    {
+      "id": 63, "category": "EGGS", "difficulty": "EASY",
+      "question": "How does the air cell inside an egg change as the egg gets older?",
+      "options": ["It gets smaller", "It stays the same size", "It disappears", "It gets larger"],
+      "correctIndex": 3, "timeLimit": 15,
+      "funFact": "This is why a fresh egg sinks flat in water and a stale egg floats — moisture evaporates through the pores and the air cell expands over time."
+    },
+    {
+      "id": 64, "category": "EGGS", "difficulty": "EASY",
+      "question": "What gives egg yolks their yellow-orange colour?",
+      "options": ["The protein content", "Carotenoids from the hen's diet", "The fat content", "Exposure to sunlight"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "Hens fed marigold petals or carotenoid-rich plants produce deep orange yolks with higher levels of lutein and zeaxanthin — beneficial antioxidants."
+    },
+    {
+      "id": 65, "category": "EGGS", "difficulty": "MEDIUM",
+      "question": "Which simple test confirms whether a raw egg is fresh without cracking it open?",
+      "options": ["Shake test", "Smell test", "Float test in water", "Weight test"],
+      "correctIndex": 2, "timeLimit": 12,
+      "funFact": "A fresh egg sinks and lies flat. A week-old egg tilts upward. A bad egg floats — its air cell has expanded too much."
+    },
+    {
+      "id": 66, "category": "EGGS", "difficulty": "MEDIUM",
+      "question": "How many calories does an average large egg contain?",
+      "options": ["45", "70", "120", "160"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "Despite its small size an egg contains 13 essential vitamins and minerals — making it one of the most nutrient-dense foods per calorie available."
+    },
+    {
+      "id": 67, "category": "EGGS", "difficulty": "MEDIUM",
+      "question": "What approximate percentage of an egg's total weight is the shell?",
+      "options": ["3%", "10%", "20%", "30%"],
+      "correctIndex": 1, "timeLimit": 12,
+      "funFact": "The shell's calcium carbonate lattice is strong enough to bear the hen's weight yet fragile enough for a chick to break from inside with just its beak."
+    },
+    {
+      "id": 68, "category": "EGGS", "difficulty": "HARD",
+      "question": "Which protein found in raw egg whites binds the B-vitamin biotin, preventing its absorption?",
+      "options": ["Albumin", "Conalbumin", "Lysozyme", "Avidin"],
+      "correctIndex": 3, "timeLimit": 10,
+      "funFact": "Cooking egg whites deactivates avidin. Eating large amounts of raw egg whites regularly can cause biotin deficiency — historically called egg white injury."
+    },
+    {
+      "id": 69, "category": "EGGS", "difficulty": "HARD",
+      "question": "What is the innermost protective membrane lining the inside of an eggshell called?",
+      "options": ["Albumen layer", "Shell membrane", "Vitelline membrane", "Chalaziferous layer"],
+      "correctIndex": 1, "timeLimit": 10,
+      "funFact": "There are two shell membranes — an outer and an inner. The air cell forms between them at the broad end of the egg immediately after laying as the egg cools."
+    },
+    {
+      "id": 70, "category": "EGGS", "difficulty": "HARD",
+      "question": "Which rare egg abnormality occurs when a fully formed egg ends up inside another egg?",
+      "options": ["Counter-peristalsis contraction", "Fart egg", "Wind egg", "Lash egg"],
+      "correctIndex": 0, "timeLimit": 10,
+      "funFact": "This extremely rare phenomenon happens when a second ovulation occurs shortly after the first egg forms. The first egg reverses back up the oviduct and becomes encased in the second egg."
+    },
+    {
+      "id": 71, "category": "FEED_CARE", "difficulty": "EASY",
+      "question": "What protein-rich treat do chickens love that also helps boost feather regrowth during moult?",
+      "options": ["Sunflower seeds", "Apple slices", "Cooked pasta", "Mealworms"],
+      "correctIndex": 3, "timeLimit": 15,
+      "funFact": "Mealworms are 53% protein by dry weight — perfect during moult when hens need extra protein to regrow their feathers quickly."
+    },
+    {
+      "id": 72, "category": "FEED_CARE", "difficulty": "EASY",
+      "question": "What is the main purpose of a dust bath for chickens?",
+      "options": ["Cooling down in hot weather", "Cleaning feathers and controlling mites", "Social bonding with the flock", "Sharpening their claws"],
+      "correctIndex": 1, "timeLimit": 15,
+      "funFact": "Chickens instinctively dust bathe — fine sand or dry soil particles penetrate feathers and smother mites and lice by blocking their breathing pores."
+    },
+    {
+      "id": 73, "category": "FEED_CARE", "difficulty": "EASY",
+      "question": "What brooder temperature is recommended for chicks in their very first week of life?",
+      "options": ["25°C (77°F)", "30°C (86°F)", "35°C (95°F)", "40°C (104°F)"],
+      "correctIndex": 2, "timeLimit": 15,
+      "funFact": "Chicks cannot regulate their own body temperature for the first few weeks. The brooder temperature is reduced by about 3°C each week until they are fully feathered."
+    },
+    {
+      "id": 74, "category": "FEED_CARE", "difficulty": "MEDIUM",
+      "question": "At what age are chicks typically ready to move from the brooder to an outdoor coop?",
+      "options": ["2-3 weeks", "4-5 weeks", "6-8 weeks", "10-12 weeks"],
+      "correctIndex": 2, "timeLimit": 12,
+      "funFact": "Chicks are ready when fully feathered which takes 6-8 weeks. Transitioning during warm weather reduces cold stress and makes integration easier."
+    },
+    {
+      "id": 75, "category": "FEED_CARE", "difficulty": "MEDIUM",
+      "question": "What is fermented chicken feed and why is it beneficial?",
+      "options": ["Dried grain mixed with vitamins", "Sprouted grain for extra energy", "Feed soaked in water to grow beneficial bacteria", "Medicated feed for gut parasites"],
+      "correctIndex": 2, "timeLimit": 12,
+      "funFact": "Fermented feed improves nutrient bioavailability by up to 30% and contains probiotics that support gut health — hens often eat less but absorb more."
+    },
+    {
+      "id": 76, "category": "FEED_CARE", "difficulty": "MEDIUM",
+      "question": "Which herb placed in nesting boxes acts as a natural relaxant and pest deterrent?",
+      "options": ["Rosemary", "Basil", "Mint", "Lavender"],
+      "correctIndex": 3, "timeLimit": 12,
+      "funFact": "Lavender contains linalool which repels insects and has a calming effect on hens. Mint and rosemary are also effective natural pest deterrents in the coop."
+    },
+    {
+      "id": 77, "category": "FEED_CARE", "difficulty": "HARD",
+      "question": "What compound in onions can damage a chicken's red blood cells in large quantities?",
+      "options": ["Allicin", "Solanine", "Theobromine", "N-propyl disulfide"],
+      "correctIndex": 3, "timeLimit": 10,
+      "funFact": "N-propyl disulfide oxidises haemoglobin in red blood cells causing Heinz body anaemia. Small occasional amounts are usually harmless but large doses can be fatal."
+    },
+    {
+      "id": 78, "category": "FEED_CARE", "difficulty": "HARD",
+      "question": "What is the minimum recommended outdoor run space per standard-sized chicken?",
+      "options": ["0.25 sq metres", "0.5 sq metres", "1 sq metre", "2 sq metres"],
+      "correctIndex": 2, "timeLimit": 10,
+      "funFact": "Overcrowding causes stress, feather pecking, and disease spread. More space per bird leads to healthier happier chickens and consistently better egg production."
+    },
+    {
+      "id": 79, "category": "FEED_CARE", "difficulty": "HARD",
+      "question": "Why should raw dried beans never be fed to chickens?",
+      "options": ["They cause egg discolouration", "They contain phytohaemagglutinin which is highly toxic", "They are too hard to digest", "They cause excessive thirst"],
+      "correctIndex": 1, "timeLimit": 10,
+      "funFact": "Phytohaemagglutinin (PHA) in raw beans — especially kidney beans — can be lethal to chickens within hours. Thorough cooking destroys the toxin completely."
+    },
+    {
+      "id": 80, "category": "FEED_CARE", "difficulty": "MEDIUM",
+      "question": "What feeding practice called scratch encourages chickens' natural foraging behaviour?",
+      "options": ["Feeding from an automatic dispenser", "Hand feeding treats one by one", "Scattering mixed grains on the ground", "Mixing feed with warm water"],
+      "correctIndex": 2, "timeLimit": 12,
+      "funFact": "Scratch grains are lower in protein than complete feed and should only make up about 10% of a hen's diet — too much scratch leads to nutritional imbalances."
+    },
+    {
+      "id": 81, "category": "HEALTH", "difficulty": "EASY",
+      "question": "What is the most important first step when adding new chickens to an existing flock?",
+      "options": ["Introduce them at night so they wake up together", "Put them in the same coop immediately", "Quarantine them for 2-4 weeks", "Mix them with chicks first"],
+      "correctIndex": 2, "timeLimit": 15,
+      "funFact": "Quarantine allows you to observe new birds for illness. Many diseases have incubation periods of 1-2 weeks — a full 4-week quarantine is the safest standard."
+    },
+    {
+      "id": 82, "category": "HEALTH", "difficulty": "EASY",
+      "question": "What colour change in a chicken's comb can signal circulatory problems or cold stress?",
+      "options": ["Bright red", "Pale pink", "Blue or purple", "Orange"],
+      "correctIndex": 2, "timeLimit": 15,
+      "funFact": "A blue or purple comb indicates cyanosis — poor blood oxygenation. It can signal heart failure, severe respiratory disease, or extreme cold exposure."
+    },
+    {
+      "id": 83, "category": "HEALTH", "difficulty": "EASY",
+      "question": "What is the best way to tell whether a chicken has lice rather than mites?",
+      "options": ["Lice cause feather loss only", "They look identical under inspection", "Lice are visible on the bird during the day while mites hide in coop cracks", "Mites are active during the day and lice at night"],
+      "correctIndex": 2, "timeLimit": 15,
+      "funFact": "Red mites are blood-suckers that leave the bird during the day and hide in cracks. Checking the coop at night with a torch reveals them. Lice live permanently on the bird."
+    },
+    {
+      "id": 84, "category": "HEALTH", "difficulty": "MEDIUM",
+      "question": "What respiratory disease in chickens is caused by Mycoplasma gallisepticum bacteria?",
+      "options": ["Fowl Pox", "Newcastle Disease", "Infectious Bronchitis", "Chronic Respiratory Disease"],
+      "correctIndex": 3, "timeLimit": 12,
+      "funFact": "CRD spreads through direct contact and contaminated equipment causing rattling breathing, swollen sinuses, and reduced egg production. Stress is a common trigger."
+    },
+    {
+      "id": 85, "category": "HEALTH", "difficulty": "MEDIUM",
+      "question": "What is a prolapsed vent in chickens?",
+      "options": ["A blocked digestive tract", "Inflammation of the crop", "A swollen foot infection", "Internal tissue protruding from the cloaca"],
+      "correctIndex": 3, "timeLimit": 12,
+      "funFact": "Vent prolapse is most common in young hens that begin laying too early or lay very large eggs. Keeping the area moist and temporarily isolating the bird can help mild cases."
+    },
+    {
+      "id": 86, "category": "HEALTH", "difficulty": "MEDIUM",
+      "question": "What is the most common internal parasite found in backyard chickens?",
+      "options": ["Tapeworm", "Gapeworm", "Hookworm", "Roundworm"],
+      "correctIndex": 3, "timeLimit": 12,
+      "funFact": "Ascaridia galli roundworms can grow up to 11cm long. Severe infections cause weight loss, pale combs, and reduced laying. Regular faecal checks and deworming are recommended."
+    },
+    {
+      "id": 87, "category": "HEALTH", "difficulty": "HARD",
+      "question": "Which vitamin deficiency causes encephalomalacia known as crazy chick disease?",
+      "options": ["Vitamin A", "Vitamin B12", "Vitamin D", "Vitamin E"],
+      "correctIndex": 3, "timeLimit": 10,
+      "funFact": "Vitamin E acts as an antioxidant that protects brain tissue. Deficiency causes neurological symptoms including head tremors and loss of coordination in young chicks."
+    },
+    {
+      "id": 88, "category": "HEALTH", "difficulty": "HARD",
+      "question": "What fungal infection affects a hen's cloaca causing white discharge and a foul smell?",
+      "options": ["Coccidiosis", "Salpingitis", "Moniliasis", "Vent gleet"],
+      "correctIndex": 3, "timeLimit": 10,
+      "funFact": "Vent gleet is caused by Candida yeast overgrowth triggered by stress, antibiotic overuse, or poor diet. It is treated with antifungal medication and probiotic supplementation."
+    },
+    {
+      "id": 89, "category": "HEALTH", "difficulty": "HARD",
+      "question": "Which viral disease causes twisted neck syndrome known as wry neck or torticollis in chickens?",
+      "options": ["Fowl Pox", "Marek's Disease", "Avian Influenza", "Newcastle Disease"],
+      "correctIndex": 3, "timeLimit": 10,
+      "funFact": "Newcastle Disease affects the nervous system causing head tremors, wing drooping, and twisted neck. It has a very high mortality rate in unvaccinated flocks worldwide."
+    },
+    {
+      "id": 90, "category": "HEALTH", "difficulty": "HARD",
+      "question": "What rare condition can cause a hen to spontaneously develop male physical characteristics like spurs and crowing?",
+      "options": ["Egg binding", "Salpingitis", "Sex reversal", "Moult disorder"],
+      "correctIndex": 2, "timeLimit": 10,
+      "funFact": "If a hen's left ovary is damaged the right rudimentary gonad can develop into a testis. The hen may grow spurs, develop a rooster-style comb, and even begin crowing."
+    },
+    {
+      "id": 91, "category": "FUN_FACTS", "difficulty": "EASY",
+      "question": "What distinctive sound does a hen typically make immediately after laying an egg?",
+      "options": ["A quiet soft cluck", "Complete silence", "A sharp alarm call", "The egg song — loud repeated clucking"],
+      "correctIndex": 3, "timeLimit": 15,
+      "funFact": "The egg song can last up to 15 minutes and the whole flock often joins in. Scientists believe it may signal the hen's health and productivity to the rest of the flock."
+    },
+    {
+      "id": 92, "category": "FUN_FACTS", "difficulty": "EASY",
+      "question": "What is the name of the red fleshy skin hanging below a chicken's beak?",
+      "options": ["Comb", "Spur", "Wattle", "Jowl"],
+      "correctIndex": 2, "timeLimit": 15,
+      "funFact": "Wattles help regulate body temperature just like the comb — blood circulates through them releasing heat. Roosters generally have larger wattles than hens."
+    },
+    {
+      "id": 93, "category": "FUN_FACTS", "difficulty": "EASY",
+      "question": "What is a young female chicken under one year old called?",
+      "options": ["Chick", "Hen", "Layer", "Pullet"],
+      "correctIndex": 3, "timeLimit": 15,
+      "funFact": "A pullet begins laying between 18-24 weeks depending on breed. Her first eggs are often smaller and irregular until her laying cycle fully regulates."
+    },
+    {
+      "id": 94, "category": "FUN_FACTS", "difficulty": "EASY",
+      "question": "Do chickens experience REM sleep?",
+      "options": ["No, they only have light sleep", "Only roosters do", "Only during daytime naps", "Yes, they cycle through REM and slow-wave sleep"],
+      "correctIndex": 3, "timeLimit": 15,
+      "funFact": "Studies show chickens have full REM sleep cycles with rapid eye movements — the same stage in which humans dream. They often sleep with one eye open to watch for predators."
+    },
+    {
+      "id": 95, "category": "FUN_FACTS", "difficulty": "MEDIUM",
+      "question": "How do mother hens begin communicating with chicks while they are still inside the egg?",
+      "options": ["They tap on the shell", "They vibrate the nest", "They sit silently until hatching", "They cluck softly and the chick responds with peeps"],
+      "correctIndex": 3, "timeLimit": 12,
+      "funFact": "Hen-chick communication begins 3 days before hatching. The chick's peeps from inside the egg help the mother hen coordinate hatching across all eggs in the clutch."
+    },
+    {
+      "id": 96, "category": "FUN_FACTS", "difficulty": "MEDIUM",
+      "question": "What special visual ability do chickens have that humans lack?",
+      "options": ["True night vision", "360-degree vision", "Infrared detection", "Ability to see ultraviolet light"],
+      "correctIndex": 3, "timeLimit": 12,
+      "funFact": "Chickens have four types of colour receptors compared to humans' three — allowing them to see UV light and detect feather markings and egg patterns invisible to the human eye."
+    },
+    {
+      "id": 97, "category": "FUN_FACTS", "difficulty": "MEDIUM",
+      "question": "Why do roosters crow at dawn even before sunrise?",
+      "options": ["They respond to other roosters crowing first", "They crow only when hungry", "It is a territorial display triggered by light", "Their internal circadian clock anticipates the light cycle"],
+      "correctIndex": 3, "timeLimit": 12,
+      "funFact": "Roosters have an internal circadian clock that triggers crowing before sunrise. Even in total darkness with no time cues they will still crow at the expected dawn time."
+    },
+    {
+      "id": 98, "category": "FUN_FACTS", "difficulty": "MEDIUM",
+      "question": "Approximately how many taste buds does a chicken have compared to a human's roughly 10,000?",
+      "options": ["Same as humans", "5,000", "1,000-2,000", "240-360"],
+      "correctIndex": 3, "timeLimit": 12,
+      "funFact": "Chickens have very few taste buds but are sensitive to salt and bitter compounds. Capsaicin from chilli peppers doesn't affect them at all — making chilli a useful deterrent for other animals."
+    },
+    {
+      "id": 99, "category": "FUN_FACTS", "difficulty": "HARD",
+      "question": "According to evolutionary science, which came first — the chicken or the egg?",
+      "options": ["The chicken", "They evolved simultaneously", "Science cannot determine this", "The egg"],
+      "correctIndex": 3, "timeLimit": 10,
+      "funFact": "Animals laid eggs for hundreds of millions of years before chickens evolved. The first chicken egg was laid by a proto-chicken bird whose genetic mutation produced the first true chicken."
+    },
+    {
+      "id": 100, "category": "FUN_FACTS", "difficulty": "HARD",
+      "question": "Approximately how many years ago were chickens first domesticated according to archaeological evidence?",
+      "options": ["2,000 years ago", "5,000 years ago", "8,000 years ago", "15,000 years ago"],
+      "correctIndex": 2, "timeLimit": 10,
+      "funFact": "Archaeological evidence from China and Southeast Asia dates chicken domestication to around 6000 BCE. They were initially kept for cockfighting and religious ceremonies — not food."
     }
   ]
 }

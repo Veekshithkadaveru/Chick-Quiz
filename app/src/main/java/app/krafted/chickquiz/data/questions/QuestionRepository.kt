@@ -10,14 +10,15 @@ class QuestionRepository(
     private val questionDao: QuestionDao
 ) {
     suspend fun loadQuestions(): List<Question> {
-        val cached = questionDao.getAllQuestions()
-        if (cached.isNotEmpty()) return cached.map { it.toQuestion() }
-
         val json = context.assets.open("questions.json")
             .bufferedReader().use { it.readText() }
         val parsed = Gson().fromJson(json, QuestionBank::class.java)
 
-        questionDao.insertAll(parsed.questions.map { it.toEntity() })
+        val cached = questionDao.getAllQuestions()
+        if (cached.size != parsed.questions.size) {
+            questionDao.insertAll(parsed.questions.map { it.toEntity() })
+        }
+
         return parsed.questions
     }
 

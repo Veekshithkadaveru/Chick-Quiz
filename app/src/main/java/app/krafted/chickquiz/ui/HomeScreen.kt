@@ -36,16 +36,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.border
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Collections
-import androidx.compose.material.icons.filled.Leaderboard
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -127,6 +126,9 @@ fun HomeScreen(
     val bgResId = remember {
         context.resources.getIdentifier("bg_home", "drawable", context.packageName)
     }
+    val appIconResId = remember {
+        context.resources.getIdentifier("ic_launcher", "mipmap", context.packageName)
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -179,24 +181,33 @@ fun HomeScreen(
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = "🐣", fontSize = 30.sp)
+                    if (appIconResId != 0) {
+                        Image(
+                            painter = painterResource(id = appIconResId),
+                            contentDescription = "Chick Quiz",
+                            modifier = Modifier.size(48.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                    }
                 }
 
                 Spacer(Modifier.width(14.dp))
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "CHICK QUIZ",
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.ExtraBold,
+                        text = "Chick Quiz",
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.Black,
                         color = ChickYellow,
-                        letterSpacing = 2.sp
+                        letterSpacing = 0.sp,
+                        lineHeight = 32.sp
                     )
                     Text(
                         text = "Chicken Expert",
                         fontSize = 12.sp,
-                        color = ChickYellow.copy(alpha = 0.50f),
-                        letterSpacing = 1.4.sp
+                        fontWeight = FontWeight.SemiBold,
+                        color = ChickYellow.copy(alpha = 0.45f),
+                        letterSpacing = 1.8.sp
                     )
                 }
 
@@ -224,9 +235,9 @@ fun HomeScreen(
                 Text(
                     text = "CATEGORIES",
                     fontSize = 10.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = CoopCream.copy(alpha = 0.38f),
-                    letterSpacing = 3.sp
+                    fontWeight = FontWeight.Bold,
+                    color = CoopCream.copy(alpha = 0.35f),
+                    letterSpacing = 2.5.sp
                 )
                 Spacer(Modifier.width(12.dp))
                 Box(
@@ -362,10 +373,10 @@ fun HomeScreen(
 
                                         Column(modifier = Modifier.weight(1f)) {
                                             Text(
-                                                text = cat.displayName.uppercase(),
+                                                text = cat.displayName,
                                                 fontWeight = FontWeight.ExtraBold,
-                                                fontSize = 14.sp,
-                                                letterSpacing = 0.8.sp,
+                                                fontSize = 15.sp,
+                                                letterSpacing = 0.2.sp,
                                                 color = Color.White
                                             )
                                             Spacer(Modifier.height(7.dp))
@@ -444,42 +455,138 @@ fun HomeScreen(
                     label = "leaderScale"
                 )
 
-                OutlinedButton(
-                    onClick = onCollectionClick,
+                // Collection card
+                Box(
                     modifier = Modifier
                         .weight(1f)
-                        .height(52.dp)
-                        .graphicsLayer { scaleX = collectionScale; scaleY = collectionScale },
-                    shape = RoundedCornerShape(16.dp),
-                    interactionSource = collectionInteraction,
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = CoopCream,
-                        containerColor = Color.White.copy(0.05f)
-                    ),
-                    border = BorderStroke(1.dp, CoopCream.copy(0.22f))
+                        .height(70.dp)
+                        .graphicsLayer { scaleX = collectionScale; scaleY = collectionScale }
+                        .shadow(
+                            elevation = 6.dp,
+                            shape = RoundedCornerShape(18.dp),
+                            ambientColor = ChickYellow.copy(0.15f),
+                            spotColor = ChickYellow.copy(0.08f)
+                        )
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(
+                            Brush.linearGradient(
+                                listOf(Color(0xFF353B7A), Color(0xFF252B62))
+                            )
+                        )
+                        .border(
+                            BorderStroke(1.dp, ChickYellow.copy(0.22f)),
+                            RoundedCornerShape(18.dp)
+                        )
+                        .clickable(
+                            interactionSource = collectionInteraction,
+                            indication = null
+                        ) { onCollectionClick() }
                 ) {
-                    Icon(Icons.Default.Collections, null, modifier = Modifier.size(17.dp))
-                    Spacer(Modifier.width(7.dp))
-                    Text("Collection", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 14.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(38.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(ChickYellow.copy(0.15f)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                Icons.Default.AutoAwesome,
+                                contentDescription = null,
+                                tint = ChickYellow,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                        Spacer(Modifier.width(11.dp))
+                        Column {
+                            Text(
+                                text = "Collection",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = CoopCream,
+                                letterSpacing = 0.2.sp
+                            )
+                            Text(
+                                text = "Unlocked chicks",
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = CoopCream.copy(0.38f),
+                                letterSpacing = 0.3.sp
+                            )
+                        }
+                    }
                 }
 
-                OutlinedButton(
-                    onClick = { onLeaderboardClick("BREEDS") },
+                // Leaderboard card
+                Box(
                     modifier = Modifier
                         .weight(1f)
-                        .height(52.dp)
-                        .graphicsLayer { scaleX = leaderScale; scaleY = leaderScale },
-                    shape = RoundedCornerShape(16.dp),
-                    interactionSource = leaderInteraction,
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = GrassGreen,
-                        containerColor = GrassGreen.copy(0.06f)
-                    ),
-                    border = BorderStroke(1.dp, GrassGreen.copy(0.38f))
+                        .height(70.dp)
+                        .graphicsLayer { scaleX = leaderScale; scaleY = leaderScale }
+                        .shadow(
+                            elevation = 6.dp,
+                            shape = RoundedCornerShape(18.dp),
+                            ambientColor = GrassGreen.copy(0.15f),
+                            spotColor = GrassGreen.copy(0.08f)
+                        )
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(
+                            Brush.linearGradient(
+                                listOf(Color(0xFF1E3A2A), Color(0xFF162B1F))
+                            )
+                        )
+                        .border(
+                            BorderStroke(1.dp, GrassGreen.copy(0.35f)),
+                            RoundedCornerShape(18.dp)
+                        )
+                        .clickable(
+                            interactionSource = leaderInteraction,
+                            indication = null
+                        ) { onLeaderboardClick("BREEDS") }
                 ) {
-                    Icon(Icons.Default.Leaderboard, null, modifier = Modifier.size(17.dp))
-                    Spacer(Modifier.width(7.dp))
-                    Text("Leaderboard", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 14.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(38.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(GrassGreen.copy(0.18f)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                Icons.Default.EmojiEvents,
+                                contentDescription = null,
+                                tint = GrassGreen,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                        Spacer(Modifier.width(11.dp))
+                        Column {
+                            Text(
+                                text = "Leaderboard",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = CoopCream,
+                                letterSpacing = 0.2.sp
+                            )
+                            Text(
+                                text = "Top scores",
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = CoopCream.copy(0.38f),
+                                letterSpacing = 0.3.sp
+                            )
+                        }
+                    }
                 }
             }
 
