@@ -267,11 +267,12 @@ fun ResultScreen(
             OutlinedTextField(
                 value = playerName,
                 onValueChange = { newName ->
-                    playerName = newName
-                    prefs.edit().putString("player_name", newName).apply()
+                    val capped = newName.take(30)
+                    playerName = capped
+                    prefs.edit().putString("player_name", capped.trim()).apply()
                     if (recordId > 0) {
                         scope.launch {
-                            db.scoreRecordDao().updatePlayerName(recordId, newName)
+                            db.scoreRecordDao().updatePlayerName(recordId, capped.trim())
                         }
                     }
                 },

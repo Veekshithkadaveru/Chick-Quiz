@@ -11,10 +11,10 @@ object QuestionShuffler {
     }
 
     private fun shuffleOptions(q: Question): Question {
+        if (q.options.isEmpty() || q.correctIndex !in q.options.indices) return q
         val shuffled = q.options.shuffled()
-        return q.copy(
-            options = shuffled,
-            correctIndex = shuffled.indexOf(q.options[q.correctIndex])
-        )
+        val correctAnswer = q.options[q.correctIndex]
+        val newIndex = shuffled.indexOf(correctAnswer).takeIf { it >= 0 } ?: 0
+        return q.copy(options = shuffled, correctIndex = newIndex)
     }
 }

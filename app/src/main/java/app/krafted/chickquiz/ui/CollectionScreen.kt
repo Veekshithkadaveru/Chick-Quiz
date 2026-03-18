@@ -380,6 +380,7 @@ private fun ChickCard(
                             EggHatchAnimation(
                                 accentColor = accent,
                                 chickResId = resId,
+                                chickName = chick.name,
                                 chickRevealScale = chickRevealScale,
                                 onComplete = {
                                     showHatch = false
@@ -391,13 +392,15 @@ private fun ChickCard(
                                 resId = resId,
                                 accent = accent,
                                 glowPulse = glowPulse,
-                                bounce = bounce
+                                bounce = bounce,
+                                chickName = chick.name
                             )
                         } else {
                             LockedChickImage(
                                 resId = resId,
                                 wobble = wobble,
-                                lockPulse = lockPulse
+                                lockPulse = lockPulse,
+                                chickName = chick.name
                             )
                         }
                     }
@@ -480,7 +483,8 @@ private fun UnlockedChickImage(
     resId: Int,
     accent: Color,
     glowPulse: Float,
-    bounce: Float
+    bounce: Float,
+    chickName: String
 ) {
     Box(contentAlignment = Alignment.Center) {
         Box(
@@ -516,7 +520,7 @@ private fun UnlockedChickImage(
                 if (resId != 0) {
                     Image(
                         painter = painterResource(id = resId),
-                        contentDescription = null,
+                        contentDescription = chickName,
                         modifier = Modifier.fillMaxSize().clip(CircleShape),
                         contentScale = ContentScale.Crop
                     )
@@ -532,7 +536,8 @@ private fun UnlockedChickImage(
 private fun LockedChickImage(
     resId: Int,
     wobble: Float,
-    lockPulse: Float
+    lockPulse: Float,
+    chickName: String
 ) {
     Box(contentAlignment = Alignment.Center) {
         Box(
@@ -547,7 +552,7 @@ private fun LockedChickImage(
             if (resId != 0) {
                 Image(
                     painter = painterResource(id = resId),
-                    contentDescription = null,
+                    contentDescription = "$chickName (locked)",
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(CircleShape)
@@ -597,6 +602,7 @@ private fun LockedChickImage(
 private fun EggHatchAnimation(
     accentColor: Color,
     chickResId: Int,
+    chickName: String,
     chickRevealScale: Animatable<Float, *>,
     onComplete: () -> Unit
 ) {
@@ -699,7 +705,7 @@ private fun EggHatchAnimation(
         if (showChick && chickResId != 0) {
             Image(
                 painter = painterResource(id = chickResId),
-                contentDescription = null,
+                contentDescription = chickName,
                 modifier = Modifier
                     .size(60.dp)
                     .graphicsLayer {

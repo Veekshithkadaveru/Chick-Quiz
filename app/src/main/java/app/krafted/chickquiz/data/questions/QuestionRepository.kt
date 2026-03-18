@@ -4,15 +4,27 @@ import android.content.Context
 import app.krafted.chickquiz.data.db.QuestionDao
 import app.krafted.chickquiz.data.db.QuestionEntity
 import com.google.gson.Gson
+import com.google.gson.JsonParseException
 
 class QuestionRepository(
     private val context: Context,
     private val questionDao: QuestionDao
 ) {
     suspend fun loadQuestions(): List<Question> {
-        val json = context.assets.open("questions.json")
-            .bufferedReader().use { it.readText() }
-        val parsed = Gson().fromJson(json, QuestionBank::class.java)
+        val json = try {
+            context.assets.open("questions.json").bufferedReader().use { it.readText() }
+        } catch (e: Exception) {
+            throw Exception("Could not read questions file", e)
+        }
+
+        val parsed = try {
+            Gson().fromJson(json, QuestionBank::class.java)
+                ?: throw JsonParseException("Parsed result was null")
+        } catch (e: Exception) {
+            throw Exception("Could not parse questions", e)
+        }
+
+        require(parsed.questions.isNotEmpty()) { "Question bank is empty" }
 
         val cached = questionDao.getAllQuestions()
         if (cached.size != parsed.questions.size) {

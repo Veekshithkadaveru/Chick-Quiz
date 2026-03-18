@@ -1,19 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-   Sample data extraction rules file; uncomment and customize as necessary.
-   See https://developer.android.com/about/versions/12/backup-restore#xml-changes
-   for details.
--->
+<?xml version="1.0" encoding="utf-8"?>
 <data-extraction-rules>
     <cloud-backup>
-        <!-- TODO: Use <include> and <exclude> to control what is backed up.
-        <include .../>
-        <exclude .../>
-        -->
+        <!-- Back up the player name preference so it roams across devices -->
+        <include domain="sharedpref" path="chick_quiz.xml"/>
+        <!-- Exclude the Room database — it is rebuilt from the bundled questions.json asset -->
+        <exclude domain="database" path="chick_quiz.db"/>
+        <exclude domain="database" path="chick_quiz.db-wal"/>
+        <exclude domain="database" path="chick_quiz.db-shm"/>
     </cloud-backup>
-    <!--
     <device-transfer>
-        <include .../>
-        <exclude .../>
+        <include domain="sharedpref" path="chick_quiz.xml"/>
+        <exclude domain="database" path="chick_quiz.db"/>
+        <exclude domain="database" path="chick_quiz.db-wal"/>
+        <exclude domain="database" path="chick_quiz.db-shm"/>
     </device-transfer>
-    -->
 </data-extraction-rules>

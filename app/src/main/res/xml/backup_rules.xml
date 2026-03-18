@@ -1,13 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-   Sample backup rules file; uncomment and customize as necessary.
-   See https://developer.android.com/guide/topics/data/autobackup
-   for details.
-   Note: This file is ignored for devices older than API 31
-   See https://developer.android.com/about/versions/12/backup-restore
--->
+<?xml version="1.0" encoding="utf-8"?>
 <full-backup-content>
-    <!--
-   <include domain="sharedpref" path="."/>
-   <exclude domain="sharedpref" path="device.xml"/>
--->
+    <!-- Back up the player name preference -->
+    <include domain="sharedpref" path="chick_quiz.xml"/>
+    <!-- Exclude the Room database — it is rebuilt from the bundled questions.json asset -->
+    <exclude domain="database" path="chick_quiz.db"/>
+    <exclude domain="database" path="chick_quiz.db-wal"/>
+    <exclude domain="database" path="chick_quiz.db-shm"/>
 </full-backup-content>

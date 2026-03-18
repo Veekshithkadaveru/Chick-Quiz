@@ -37,7 +37,8 @@ data class QuizUiState(
     val isPersonalBest: Boolean = false,
     val starsEarned: Int = 0,
     val timerKey: Int = 0,
-    val lastScoreRecordId: Int = 0
+    val lastScoreRecordId: Int = 0,
+    val loadError: Boolean = false
 )
 
 class QuizViewModel(
@@ -53,10 +54,15 @@ class QuizViewModel(
 
     fun startSession(category: String, name: String = "") {
         playerName = name
+        _uiState.value = QuizUiState()
         viewModelScope.launch {
-            val allQuestions = repository.loadQuestions()
-            val questions = QuestionShuffler.getSessionQuestions(allQuestions, category)
-            _uiState.value = QuizUiState(questions = questions, timerKey = 1)
+            try {
+                val allQuestions = repository.loadQuestions()
+                val questions = QuestionShuffler.getSessionQuestions(allQuestions, category)
+                _uiState.value = QuizUiState(questions = questions, timerKey = 1)
+            } catch (e: Exception) {
+                _uiState.update { it.copy(loadError = true) }
+            }
         }
     }
 
@@ -126,27 +132,35 @@ class QuizViewModel(
             val stars = calculateStars(state.correctCount)
             val category = state.questions.firstOrNull()?.category ?: "BREEDS"
 
-            val currentProgress = progressDao.getProgress(category)
-            val isPersonalBest = state.score > (currentProgress?.bestScore ?: 0)
-            val persistedStars = maxOf(currentProgress?.stars ?: 0, stars)
+            var isPersonalBest = false
+            var recordId = 0L
 
-            progressDao.upsert(
-                PlayerProgress(
-                    category = category,
-                    stars = persistedStars,
-                    bestScore = maxOf(currentProgress?.bestScore ?: 0, state.score),
-                    attempts = (currentProgress?.attempts ?: 0) + 1
-                )
-            )
+            try {
+                val currentProgress = progressDao.getProgress(category)
+                isPersonalBest = state.score > (currentProgress?.bestScore ?: 0)
+                val persistedStars = maxOf(currentProgress?.stars ?: 0, stars)
 
-            val recordId = scoreDao.insert(
-                ScoreRecord(
-                    category = category,
-                    score = state.score,
-                    correctCount = state.correctCount,
-                    playerName = playerName
+                progressDao.upsert(
+                    PlayerProgress(
+                        category = category,
+                        stars = persistedStars,
+                        bestScore = maxOf(currentProgress?.bestScore ?: 0, state.score),
+                        attempts = (currentProgress?.attempts ?: 0) + 1
+                    )
                 )
-            )
+
+                recordId = scoreDao.insert(
+                    ScoreRecord(
+                        category = category,
+                        score = state.score,
+                        correctCount = state.correctCount,
+                        playerName = playerName
+                    )
+                )
+            } catch (_: Exception) {
+                // Score save failed — still complete the session so the user
+                // can see their result rather than being stuck on the quiz.
+            }
 
             _uiState.update {
                 it.copy(

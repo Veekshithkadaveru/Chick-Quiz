@@ -17,6 +17,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -44,6 +45,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -111,6 +113,12 @@ fun QuizScreen(
             .getString("player_name", "") ?: ""
     }
 
+    var showExitDialog by remember { mutableStateOf(false) }
+
+    BackHandler(enabled = !uiState.sessionComplete && uiState.questions.isNotEmpty() && !uiState.loadError) {
+        showExitDialog = true
+    }
+
     LaunchedEffect(Unit) { viewModel.startSession(category, savedName) }
 
     LaunchedEffect(uiState.timerKey) {
@@ -148,7 +156,7 @@ fun QuizScreen(
         context.resources.getIdentifier("bg_quiz", "drawable", context.packageName)
     }
 
-    if (uiState.questions.isEmpty()) {
+    if (uiState.loadError || uiState.questions.isEmpty()) {
         Box(modifier = Modifier.fillMaxSize()) {
             if (bgResId != 0) {
                 Image(
@@ -167,13 +175,63 @@ fun QuizScreen(
                         )
                     )
             )
-            Text(
-                "Loading...",
-                color = CoopCream.copy(0.45f),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.align(Alignment.Center)
-            )
+            if (uiState.loadError) {
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(32.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text(
+                        text = "Couldn't load questions",
+                        color = CoopCream.copy(0.8f),
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = "Check your device storage and try again.",
+                        color = CoopCream.copy(0.45f),
+                        fontSize = 13.sp,
+                        textAlign = TextAlign.Center
+                    )
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(ChickYellow)
+                            .clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null
+                            ) { viewModel.startSession(category, savedName) }
+                            .padding(horizontal = 32.dp, vertical = 14.dp)
+                    ) {
+                        Text(
+                            text = "Try Again",
+                            color = Color(0xFF1A1A2E),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp
+                        )
+                    }
+                }
+            } else {
+                Column(
+                    modifier = Modifier.align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    CircularProgressIndicator(
+                        color = ChickYellow,
+                        strokeWidth = 3.dp,
+                        modifier = Modifier.size(40.dp)
+                    )
+                    Text(
+                        text = "Loading questions…",
+                        color = CoopCream.copy(0.45f),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+            }
         }
         return
     }
@@ -472,6 +530,86 @@ fun QuizScreen(
                                 }
                             )
                     )
+                }
+            }
+        }
+
+        if (showExitDialog) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xCC000820))
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) { /* consume clicks */ },
+                contentAlignment = Alignment.Center
+            ) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 32.dp),
+                    shape = RoundedCornerShape(22.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFF2E3472)),
+                    border = BorderStroke(1.5.dp, WrongRed.copy(0.45f))
+                ) {
+                    Column(
+                        modifier = Modifier.padding(28.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            text = "Quit Quiz?",
+                            color = Color.White,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.ExtraBold
+                        )
+                        Text(
+                            text = "Your progress will be lost.",
+                            color = CoopCream.copy(0.55f),
+                            fontSize = 14.sp,
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(ChickYellow)
+                                .clickable(
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    indication = null
+                                ) { showExitDialog = false }
+                                .padding(vertical = 14.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Keep Playing",
+                                color = Color(0xFF1A1A2E),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 15.sp
+                            )
+                        }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(WrongRed.copy(0.18f))
+                                .clickable(
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    indication = null
+                                ) { showExitDialog = false; onBack() }
+                                .padding(vertical = 14.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Quit",
+                                color = WrongRed,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 15.sp
+                            )
+                        }
+                    }
                 }
             }
         }
